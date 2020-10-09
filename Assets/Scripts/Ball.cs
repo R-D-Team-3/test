@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public Vector3 impulse = new Vector3(0.0f, 0.0f, 0.0f);
+    public Vector3 impulse;
     bool shootButtonWasPressed = false;
     int amountOfJumpsPerBall = 1;
 

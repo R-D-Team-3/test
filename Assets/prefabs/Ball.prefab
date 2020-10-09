@@ -123,5 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f9a439b072040378d9ad1ff9f3c7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulse: {x: 0, y: 10, z: 5}
-  ballPrefab: {fileID: 1203413993739579205}
+  impulse: {x: 0, y: 5, z: 5}
