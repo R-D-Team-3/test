@@ -6,26 +6,23 @@ public class Ball : MonoBehaviour
 {
     public Vector3 impulse = new Vector3(0.0f, 0.0f, 0.0f);
     bool shootButtonWasPressed = false;
-    bool reload = false;
-    int amountOfBalls = 1;
+    int amountOfJumpsPerBall = 1;
+
     // Start is called before the first frame update
     void Start()
     {
 
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && amountOfBalls > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && amountOfJumpsPerBall > 0)
         {
             shootButtonWasPressed = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && amountOfBalls == 0)
-        {
-            reload = true;
-        }
     }
 
     void FixedUpdate()
@@ -34,13 +31,18 @@ public class Ball : MonoBehaviour
         {
             GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);
             shootButtonWasPressed = false;
-            amountOfBalls--;
+            amountOfJumpsPerBall--;
+            Debug.Log("shot");
         }
 
-        if (reload)
-        {
-            reload = false;
-            amountOfBalls++;
+    }
+
+    private void OnCollisionEnter(Collision collision) //destroys ball after hitting an object (ground)
+    {
+        if (collision.gameObject.name == "Plane") //if the name of the ground is changed this has to change as well
+        { 
+            Debug.Log("destroy");
+            Destroy(this.gameObject);
         }
     }
 }
