@@ -514,6 +514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02d6a385284341f89dc772246582f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballPrefab: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
+    type: 3}
+  holder: {fileID: 289848740}
 --- !u!1 &1438709417
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +764,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652884706189}
-  - component: {fileID: 919132148895971640}
   m_Layer: 0
   m_Name: SlingShot
   m_TagString: Untagged
@@ -769,22 +771,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &919132148895971640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148895971639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 356072a013905fa48a9f4aef0572fbab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
-    type: 3}
-  ballPrefabNew: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
-    type: 3}
 --- !u!33 &3840624241344588973
 MeshFilter:
   m_ObjectHideFlags: 0

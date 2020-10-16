@@ -10,13 +10,16 @@ public class Rubber : MonoBehaviour
     Touch pulltouch;
     Vector2 pull_pos;
     Vector2 start_pos;
-
+    bool ball_present;
+    public GameObject ballPrefab;
+    public GameObject holder;
+    GameObject throw_ball;
+    Vector3 impulse;
     void Start()
-    {
-        
+    { 
+        ball_present = false;
         rubber_strain = 0f;
         rubber_force = 1f;
-        
     }
 
     // Update is called once per frame
@@ -33,11 +36,13 @@ public class Rubber : MonoBehaviour
                 {
                     rubber_strain = (start_pos.y - pull_pos.y)*400/Screen.height;
                     rubber_force = rubber_strain/10;
+                    ball_present = true;
                 }
             }
         }
         else
         {
+            ball_present=false;
             if(rubber_strain > 0f)
             {
                 rubber_strain+= -rubber_force;
@@ -45,4 +50,24 @@ public class Rubber : MonoBehaviour
         }
         transform.localScale = new Vector3(1,1,1+(rubber_strain*20/100));
     }
+    void FixedUpdate()
+    {
+        if((throw_ball == null) && ball_present)
+        {
+            throw_ball = Instantiate(ballPrefab, new Vector3(0,4,0),Quaternion.identity);
+        }
+        if(ball_present && (throw_ball != null))
+        {
+            throw_ball.transform.position = holder.transform.position + new Vector3(0,0,1);
+        }
+        if((!ball_present)&&(throw_ball != null))
+        {
+            impulse = new Vector3(0,rubber_strain/3,rubber_strain);
+            throw_ball.GetComponent<Rigidbody>().AddForce(impulse,ForceMode.Impulse);
+            throw_ball = null;
+        }
+
+
+    }
 }
+
