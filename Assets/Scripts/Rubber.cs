@@ -29,10 +29,10 @@ public class Rubber : MonoBehaviour
             if((start_pos.x > Screen.width/3) && (start_pos.x < 2*Screen.width/3) && (start_pos.y < Screen.height/4 ))
             {
                 pull_pos = pulltouch.position;
-                if(pull_pos.y > start_pos.y)
+                if(pull_pos.y < start_pos.y)
                 {
                     rubber_strain = (start_pos.y - pull_pos.y)*400/Screen.height;
-                    rubber_force = rubber_strain/20;
+                    rubber_force = rubber_strain/10;
                 }
             }
         }
@@ -43,6 +43,6 @@ public class Rubber : MonoBehaviour
                 rubber_strain+= -rubber_force;
             }
         }
-        transform.localScale = new Vector3(1,1,1+(rubber_strain*15/100));
+        transform.localScale = new Vector3(1,1,1+(rubber_strain*20/100));
     }
 }
