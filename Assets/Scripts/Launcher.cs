@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement; // temporary
 
 using Photon.Pun;
 using Photon.Realtime;
+using System.Text;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -29,6 +30,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Space(5)]
     public Text playerStatus;
     public Text connectionStatus;
+    public Text playerList;
 
     [Space(5)]
     public GameObject roomJoinUI;
@@ -47,6 +49,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         roomJoinUI.SetActive(false);
         buttonLoadArena.SetActive(false);
+        playerList.gameObject.SetActive(false);
 
         ConnectToPhoton();
     }
@@ -101,6 +104,17 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
+    public void BuildPlayerList()
+    {
+        StringBuilder sb = new StringBuilder("Available players: ");
+        foreach (var name in PhotonNetwork.PlayerList)
+        {
+            sb.Append("\n");
+            sb.Append(name);
+        }
+        playerList.text = sb.ToString();
+    }
+
     // Photon Methods
     public override void OnConnected()
     {
@@ -120,6 +134,9 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        playerList.gameObject.SetActive(true);
+        BuildPlayerList();///
+
         if (PhotonNetwork.IsMasterClient)
         {
             buttonLoadArena.SetActive(true);
@@ -130,5 +147,17 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             playerStatus.text = "Connected to Lobby";
         }
+    }
+
+    public override void OnPlayerEnteredRoom(Player player)
+    {
+        Debug.Log(player + " joined the room!");
+        BuildPlayerList();///
+    }
+
+    public override void OnPlayerLeftRoom(Player player)
+    {
+        Debug.Log(player + " left the room...");
+        BuildPlayerList();///
     }
 }
