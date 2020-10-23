@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Rubber : MonoBehaviour
 {
@@ -15,17 +16,30 @@ public class Rubber : MonoBehaviour
     public GameObject holder;
     GameObject throw_ball;
     Vector3 impulse;
+    public float angle;
+
     void Start()
     { 
         ball_present = false;
         rubber_strain = 0f;
         rubber_force = 1f;
+
+        if(InputSystem.GetDevice<Accelerometer>() != null)
+        {
+            InputSystem.EnableDevice(Accelerometer.current);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.touchCount > 0 )
+        if (InputSystem.GetDevice<Accelerometer>() != null)
+        {
+            angle = Accelerometer.current.acceleration.y.ReadValue();
+            
+        }
+
+        if (Input.touchCount > 0 )
         {
             pulltouch = Input.GetTouch(0); 
             start_pos = pulltouch.rawPosition;
@@ -62,7 +76,7 @@ public class Rubber : MonoBehaviour
         }
         if((!ball_present)&&(throw_ball != null))
         {
-            impulse = new Vector3(0,rubber_strain/3,rubber_strain);
+            impulse = new Vector3(0,angle*2,rubber_strain/8);
             throw_ball.GetComponent<Rigidbody>().AddForce(impulse,ForceMode.Impulse);
             throw_ball = null;
         }
