@@ -69,6 +69,7 @@ public class Rubber : MonoBehaviour
         if((throw_ball == null) && ball_present)
         {
             throw_ball = Instantiate(ballPrefab, new Vector3(0,4,0),Quaternion.identity);
+            throw_ball.transform.parent = this.transform.parent;
         }
         if(ball_present && (throw_ball != null))
         {
