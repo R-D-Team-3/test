@@ -15,6 +15,7 @@ public class Rubber : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject holder;
     public GameObject bullseye;
+    public GameObject slingshot;
     GameObject throw_ball;
     Vector3 impulse;
     public float angle;
@@ -57,13 +58,14 @@ public class Rubber : MonoBehaviour
                     rubber_force = rubber_strain/10;
                     ball_present = true;
 
-                    //Here the position of the bullseye is calculated & adjusted.
+                    //Here the position of the bullseye is calculated & adjusted. https://answers.unity.com/questions/1552089/impulse-force-time.html
                     float upvelocity = angle * 2 / throw_ball.GetComponent<Rigidbody>().mass;
                     airtime = (upvelocity + Mathf.Sqrt((upvelocity*upvelocity) + (4 * gravity * holder.transform.position.y))) / (2 * gravity);
 
                     float forwardvelocity = rubber_strain / (8 * throw_ball.GetComponent<Rigidbody>().mass);
                     dist_slingshot = airtime * forwardvelocity;
                     //Complete updating position!
+                    bullseye.transform.position = new Vector3(dist_slingshot * (Mathf.Cos(slingshot.transform.rotation.y*Mathf.Deg2Rad)), (float)0.01, dist_slingshot * (Mathf.Sin(slingshot.transform.rotation.y*Mathf.Deg2Rad)));
                 }
 
             }
