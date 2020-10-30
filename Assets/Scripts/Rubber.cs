@@ -14,9 +14,14 @@ public class Rubber : MonoBehaviour
     bool ball_present;
     public GameObject ballPrefab;
     public GameObject holder;
+    public GameObject bullseye;
     GameObject throw_ball;
     Vector3 impulse;
     public float angle;
+    float dist_slingshot;   // Indicates the distance of the bullseye from the slingshot.
+    float airtime;          // The duration between the departure and collision of the ball
+    float gravity = (float) 9.81;
+
 
     void Start()
     { 
@@ -51,7 +56,16 @@ public class Rubber : MonoBehaviour
                     rubber_strain = (start_pos.y - pull_pos.y)*400/Screen.height;
                     rubber_force = rubber_strain/10;
                     ball_present = true;
+
+                    //Here the position of the bullseye is calculated & adjusted.
+                    float upvelocity = angle * 2 / throw_ball.GetComponent<Rigidbody>().mass;
+                    airtime = (upvelocity + Mathf.Sqrt((upvelocity*upvelocity) + (4 * gravity * holder.transform.position.y))) / (2 * gravity);
+
+                    float forwardvelocity = rubber_strain / (8 * throw_ball.GetComponent<Rigidbody>().mass);
+                    dist_slingshot = airtime * forwardvelocity;
+                    //Complete updating position!
                 }
+
             }
         }
         else
@@ -62,6 +76,7 @@ public class Rubber : MonoBehaviour
                 rubber_strain+= -rubber_force;
             }
         }
+
         transform.localScale = new Vector3(1,1,1+(rubber_strain*20/100));
     }
     void FixedUpdate()
