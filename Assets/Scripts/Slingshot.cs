@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    float compass_input;
 
     // Start is called before the first frame update
     void Start()
@@ -15,11 +16,11 @@ public class Slingshot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        compass_input = Input.compass.magneticHeading;
     }
 
     void FixedUpdate()
     {
-        transform.rotation = Quaternion.Euler(0, Input.compass.magneticHeading, -90);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, -90), Time.deltaTime * 3);
     }
 }
