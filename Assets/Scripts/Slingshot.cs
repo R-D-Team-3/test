@@ -21,6 +21,6 @@ public class Slingshot : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, -90), Time.deltaTime * 3);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.deltaTime * 3);
     }
 }
