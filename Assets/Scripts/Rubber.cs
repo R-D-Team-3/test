@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class Rubber : MonoBehaviour
 {
@@ -30,20 +31,13 @@ public class Rubber : MonoBehaviour
         rubber_strain = 0f;
         rubber_force = 1f;
 
-        if(InputSystem.GetDevice<Accelerometer>() != null)
-        {
-            InputSystem.EnableDevice(Accelerometer.current);
-        }
+        Input.gyro.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (InputSystem.GetDevice<Accelerometer>() != null)
-        {
-            angle = Accelerometer.current.acceleration.y.ReadValue();
-            
-        }
+        angle = Input.acceleration.y * -10;
 
         if (Input.touchCount > 0 )
         {
@@ -83,7 +77,11 @@ public class Rubber : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if((throw_ball == null) && ball_present)
+        Quaternion rotation = GameObject.Find("Player").transform.rotation;
+        float sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
+        float cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
+
+        if ((throw_ball == null) && ball_present)
         {
             throw_ball = Instantiate(ballPrefab, new Vector3(0,4,0),Quaternion.identity);
             throw_ball.transform.parent = this.transform.parent;
@@ -94,7 +92,7 @@ public class Rubber : MonoBehaviour
         }
         if((!ball_present)&&(throw_ball != null))
         {
-            impulse = new Vector3(0,angle*2,rubber_strain/8);
+            impulse = new Vector3((rubber_strain/8)*sinAngle, angle, (rubber_strain/8)*cosAngle);
             throw_ball.GetComponent<Rigidbody>().AddForce(impulse,ForceMode.Impulse);
             throw_ball = null;
         }
