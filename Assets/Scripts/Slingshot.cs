@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slingshot : MonoBehaviour
+using Photon.Pun;
+
+public class Slingshot : MonoBehaviourPun
 {
     float compass_input;
 
@@ -16,11 +18,23 @@ public class Slingshot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         compass_input = Input.compass.magneticHeading;
     }
 
     void FixedUpdate()
     {
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.deltaTime * 3);
     }
 }

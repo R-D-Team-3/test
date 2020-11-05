@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 
-public class Rubber : MonoBehaviour
+using Photon.Pun;
+
+public class Rubber : MonoBehaviourPun
 {
     // Start is called before the first frame update
     float rubber_strain;
@@ -37,6 +39,12 @@ public class Rubber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         angle = Input.acceleration.y * -10;
 
         if (Input.touchCount > 0 )
@@ -77,13 +85,19 @@ public class Rubber : MonoBehaviour
     }
     void FixedUpdate()
     {
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
         Quaternion rotation = GameObject.Find("Player").transform.rotation;
         float sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
         float cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
 
         if ((throw_ball == null) && ball_present)
         {
-            throw_ball = Instantiate(ballPrefab, new Vector3(0,4,0),Quaternion.identity);
+            throw_ball = PhotonNetwork.Instantiate(this.ballPrefab.name, new Vector3(0,4,0),Quaternion.identity, 0);
             throw_ball.transform.parent = this.transform.parent;
         }
         if(ball_present && (throw_ball != null))
