@@ -95,8 +95,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             // TEMPORARY, CHANGE LATER!!!!!!!!!!!
-            // PhotonNetwork.LoadLevel("MainArena");
-            SceneManager.LoadScene(0); // temporary
+            PhotonNetwork.LoadLevel("MPTestRoom");
+            // SceneManager.LoadScene(0); // temporary
         }
         else
         {

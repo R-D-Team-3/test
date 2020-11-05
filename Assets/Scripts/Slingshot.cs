@@ -2,44 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slingshot : MonoBehaviour
-{
-    bool reload = false;
-    int amountOfBalls = 0;
+using Photon.Pun;
 
-    // Reference to the Prefab of a ball. Drag a Prefab into this field in the Inspector.
-    public GameObject ballPrefab;
-    public GameObject ballPrefabNew;
+public class Slingshot : MonoBehaviourPun
+{
+    float compass_input;
 
     // Start is called before the first frame update
     void Start()
     {
-        ballPrefabNew = Instantiate(ballPrefab, new Vector3(0, 5, -5), Quaternion.identity);
+        Input.compass.enabled = true;
+        Input.location.Start();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && amountOfBalls == 1)
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            amountOfBalls--;
+            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && amountOfBalls == 0 && ballPrefabNew == null)
-        {
-            reload = true;
-        }
+        compass_input = Input.compass.magneticHeading;
     }
 
     void FixedUpdate()
     {
-        if (reload)
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            ballPrefabNew = Instantiate(ballPrefab, new Vector3(0, 5, -5), Quaternion.identity);
-            reload = false;
-            amountOfBalls++;
-            Debug.Log("reloaded, amount left:" + amountOfBalls);
+            return;
         }
 
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.deltaTime * 3);
     }
 }

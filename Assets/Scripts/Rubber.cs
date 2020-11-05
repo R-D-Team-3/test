@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
-public class Rubber : MonoBehaviour
+using Photon.Pun;
+
+public class Rubber : MonoBehaviourPun
 {
     // Start is called before the first frame update
     float rubber_strain;
@@ -14,9 +17,15 @@ public class Rubber : MonoBehaviour
     bool ball_present;
     public GameObject ballPrefab;
     public GameObject holder;
+    public GameObject bullseye;
+    public GameObject slingshot;
     GameObject throw_ball;
     Vector3 impulse;
     public float angle;
+    float dist_slingshot;   // Indicates the distance of the bullseye from the slingshot.
+    float airtime;          // The duration between the departure and collision of the ball
+    float gravity = (float) 9.81;
+
 
     void Start()
     { 
@@ -24,20 +33,19 @@ public class Rubber : MonoBehaviour
         rubber_strain = 0f;
         rubber_force = 1f;
 
-        if(InputSystem.GetDevice<Accelerometer>() != null)
-        {
-            InputSystem.EnableDevice(Accelerometer.current);
-        }
+        Input.gyro.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (InputSystem.GetDevice<Accelerometer>() != null)
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            angle = Accelerometer.current.acceleration.y.ReadValue();
-            
+            return;
         }
+
+        angle = Input.acceleration.y * -10;
 
         if (Input.touchCount > 0 )
         {
@@ -51,7 +59,17 @@ public class Rubber : MonoBehaviour
                     rubber_strain = (start_pos.y - pull_pos.y)*400/Screen.height;
                     rubber_force = rubber_strain/10;
                     ball_present = true;
+
+                    //Here the position of the bullseye is calculated & adjusted. https://answers.unity.com/questions/1552089/impulse-force-time.html
+                    float upvelocity = angle * 2 / throw_ball.GetComponent<Rigidbody>().mass;
+                    airtime = (upvelocity + Mathf.Sqrt((upvelocity*upvelocity) + (4 * gravity * holder.transform.position.y))) / (2 * gravity);
+
+                    float forwardvelocity = rubber_strain / (8 * throw_ball.GetComponent<Rigidbody>().mass);
+                    dist_slingshot = airtime * forwardvelocity;
+                    //Complete updating position!
+                    bullseye.transform.position = new Vector3(dist_slingshot * (Mathf.Cos(slingshot.transform.rotation.y*Mathf.Deg2Rad)), (float)0.01, dist_slingshot * (Mathf.Sin(slingshot.transform.rotation.y*Mathf.Deg2Rad)));
                 }
+
             }
         }
         else
@@ -62,13 +80,25 @@ public class Rubber : MonoBehaviour
                 rubber_strain+= -rubber_force;
             }
         }
+
         transform.localScale = new Vector3(1,1,1+(rubber_strain*20/100));
     }
     void FixedUpdate()
     {
-        if((throw_ball == null) && ball_present)
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            throw_ball = Instantiate(ballPrefab, new Vector3(0,4,0),Quaternion.identity);
+            return;
+        }
+
+        Quaternion rotation = GameObject.Find("Player").transform.rotation;
+        float sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
+        float cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
+
+        if ((throw_ball == null) && ball_present)
+        {
+            throw_ball = PhotonNetwork.Instantiate(this.ballPrefab.name, new Vector3(0,4,0),Quaternion.identity, 0);
+            throw_ball.transform.parent = this.transform.parent;
         }
         if(ball_present && (throw_ball != null))
         {
@@ -76,7 +106,7 @@ public class Rubber : MonoBehaviour
         }
         if((!ball_present)&&(throw_ball != null))
         {
-            impulse = new Vector3(0,angle*2,rubber_strain/8);
+            impulse = new Vector3((rubber_strain/8)*sinAngle, angle, (rubber_strain/8)*cosAngle);
             throw_ball.GetComponent<Rigidbody>().AddForce(impulse,ForceMode.Impulse);
             throw_ball = null;
         }
