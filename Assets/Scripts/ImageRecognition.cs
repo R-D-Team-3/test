@@ -6,6 +6,8 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 using System;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.SceneManagement;
+
 
 public class ImageRecognition : MonoBehaviour
 {
@@ -76,6 +78,7 @@ public class ImageRecognition : MonoBehaviour
 
         if(slider.value == 1){
             //hier code om terug uit camerascene te gaan nadat scannen voltooid is
+            SceneManager.LoadScene("SampleScene 1");
         }
 
     }
