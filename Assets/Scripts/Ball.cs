@@ -25,7 +25,7 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.name == "Plane") //if the name of the ground is changed this has to change as well
         { 
             Debug.Log("destroy");
-              Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

@@ -622,6 +622,6 @@ MonoBehaviour:
   ballPrefab: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
     type: 3}
   holder: {fileID: 4646620361623532430}
-  bullseye: {fileID: 0}
+  bullseyePrefab: {fileID: 0}
   slingshot: {fileID: 0}
   angle: 0
