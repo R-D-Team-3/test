@@ -5,12 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 8b74a20f7e46df1458efc654a8086ba1
+  - enabled: 1
     path: Assets/Scenes/SampleScene 1.unity
     guid: f325413811b014a8a8916c7f634c3bdc
-  - enabled: 0
-    path: Assets/Scenes/CameraTestScene.unity
-    guid: 77d9a8c8a579ca04a8357d436a291716
+  - enabled: 1
+    path: Assets/Scenes/Launcher.unity
+    guid: 1c25d34f067452c478ece4ed151e50b0
+  - enabled: 1
+    path: Assets/Scenes/MPTestRoom.unity
+    guid: 4218aea48f98fa548bd1a090e6f259e4
   - enabled: 1
     path: Assets/Scenes/ImageRecognitionScene.unity
     guid: 81083ce75b782ee4281f96fc45ed286d
