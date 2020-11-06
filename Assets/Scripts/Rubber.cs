@@ -72,7 +72,6 @@ public class Rubber : MonoBehaviourPun
                     //Complete updating position!
                     //bullseye.transform.position = new Vector3(dist_slingshot * (Mathf.Cos(slingshot.transform.rotation.y*Mathf.Deg2Rad)), (float)0.01, dist_slingshot * (Mathf.Sin(slingshot.transform.rotation.y*Mathf.Deg2Rad)));
                 }
-
             }
         }
         else
@@ -101,8 +100,8 @@ public class Rubber : MonoBehaviourPun
         if ((throw_ball == null) && ball_present)
         {
             Debug.Log("Ball instantiated by player");
-            //throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, new Vector3(0,4,0),Quaternion.identity, 0);
-            throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
+            //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
+            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position, Quaternion.identity, 0);
             throw_ball.transform.parent = this.transform.parent;
             bullseye = Instantiate(bullseyePrefab, new Vector3(0,0,0),Quaternion.identity);
             bullseye.transform.SetParent(throw_ball.transform.parent);
@@ -124,8 +123,8 @@ public class Rubber : MonoBehaviourPun
             impulse = new Vector3((rubber_strain/8)*sinAngle, angle, (rubber_strain/8)*cosAngle);
             throw_ball.GetComponent<Rigidbody>().AddRelativeForce(impulse,ForceMode.Impulse);
             Destroy(bullseye);
+            throw_ball.transform.SetParent(null, true);
             throw_ball = null;
         }
     }
 }
-
