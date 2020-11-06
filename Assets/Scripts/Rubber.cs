@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using System;
 
 using Photon.Pun;
-
 public class Rubber : MonoBehaviourPun
 {
     // Start is called before the first frame update
@@ -87,7 +86,6 @@ public class Rubber : MonoBehaviourPun
     }
     void FixedUpdate()
     {
-
         // Ignore everything if this is another player's object
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
@@ -100,25 +98,21 @@ public class Rubber : MonoBehaviourPun
 
         if ((throw_ball == null) && ball_present)
         {
-            Debug.Log("Ball instantiated by player");
+            Debug.Log("Ball instantiated by Player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
-            throw_ball = PhotonNetwork.Instantiate("Ball", this.transform.position + new Vector3(0, 4, 0), Quaternion.identity, 0);
-            throw_ball.GetComponent<Ball>().creator = transform.parent.gameObject;
-
+            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position + new Vector3(0,3,0), Quaternion.identity,0);
             throw_ball.transform.parent = this.transform.parent;
-
-            Physics.IgnoreCollision(throw_ball.GetComponent<Collider>(), this.GetComponentInParent<Collider>());
-
-            bullseye = Instantiate(bullseyePrefab, new Vector3(0,0,0),Quaternion.identity);
-            bullseye.transform.SetParent(throw_ball.transform.parent);
+            bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.position + new Vector3(0,1,0) ,Quaternion.identity,0);
+            bullseye.transform.SetParent(this.transform.parent);
         }
         if(ball_present && (throw_ball != null))
         {
             throw_ball.transform.position = holder.transform.position;
+            throw_ball.GetComponent<Rigidbody>().mass=0;
             throw_ball.transform.localPosition+=new Vector3(0,-0.5f,0);
-            float upvelocity = angle * 2 / throw_ball.GetComponent<Rigidbody>().mass;
+            float upvelocity = angle * 2;
             airtime = (upvelocity + Mathf.Sqrt((upvelocity*upvelocity) + (4 * gravity * holder.transform.position.y))) / (2 * gravity);
-            float forwardvelocity = rubber_strain / (8 * throw_ball.GetComponent<Rigidbody>().mass);
+            float forwardvelocity = rubber_strain / 8;
             dist_slingshot = airtime * forwardvelocity;
             bullseye.transform.localPosition = new Vector3(bullseye.transform.localPosition.x,5-dist_slingshot,0);
             //bullseye.transform.position = new Vector3(dist_slingshot * (Mathf.Cos(slingshot.transform.rotation.y*Mathf.Deg2Rad)), (float)0.01, dist_slingshot * (Mathf.Sin(slingshot.transform.rotation.y*Mathf.Deg2Rad)));
@@ -127,8 +121,8 @@ public class Rubber : MonoBehaviourPun
         if((!ball_present)&&(throw_ball != null))
         {
             impulse = new Vector3((rubber_strain/8)*sinAngle, angle, (rubber_strain/8)*cosAngle);
+            throw_ball.GetComponent<Rigidbody>().mass = 1;
             throw_ball.GetComponent<Rigidbody>().AddRelativeForce(impulse,ForceMode.Impulse);
-            Destroy(bullseye);
             throw_ball.transform.SetParent(null, true);
             throw_ball = null;
         }

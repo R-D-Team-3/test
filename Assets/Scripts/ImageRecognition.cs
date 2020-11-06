@@ -6,9 +6,15 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 using System;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.SceneManagement;
+
+
 
 public class ImageRecognition : MonoBehaviour
 {
+    [SerializeField]
+    public Text notificationText;
+
     private ARTrackedImageManager _aRTrackedImageManager;
 
     private float sliderCount;
@@ -76,7 +82,16 @@ public class ImageRecognition : MonoBehaviour
 
         if(slider.value == 1){
             //hier code om terug uit camerascene te gaan nadat scannen voltooid is
+            
+            StartCoroutine(SendNotification("Antenna succesfully captured!", 2));
+            SceneManager.LoadScene("SampleScene 1");
         }
 
+    }
+    IEnumerator SendNotification(string text, int time)  //  <-  its a standalone method
+    {
+        notificationText.text = text;
+        yield return new WaitForSeconds(time);
+        notificationText.text = "";
     }
 }
