@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class Ball : MonoBehaviour
 {
     public Vector3 impulse;
@@ -15,7 +15,8 @@ public class Ball : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+    // Update is called once per frame    
+    
     void Update()
     {
     
@@ -26,6 +27,7 @@ public class Ball : MonoBehaviour
         { 
             Debug.Log("destroy");
             Destroy(this.gameObject);
+            Destroy(GameObject.Find("BullsEye"));
         }
     }
 }

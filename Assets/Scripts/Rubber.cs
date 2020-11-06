@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using System;
 
 using Photon.Pun;
-
 public class Rubber : MonoBehaviourPun
 {
     // Start is called before the first frame update
@@ -99,12 +98,12 @@ public class Rubber : MonoBehaviourPun
 
         if ((throw_ball == null) && ball_present)
         {
-            Debug.Log("Ball instantiated by player");
+            Debug.Log("Ball instantiated by Player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
-            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position, Quaternion.identity);
+            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position + new Vector3(0,3,0), Quaternion.identity,0);
             throw_ball.transform.parent = this.transform.parent;
-            bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.parent.position,Quaternion.identity);
-            bullseye.transform.SetParent(throw_ball.transform.parent);
+            bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.position + new Vector3(0,1,0) ,Quaternion.identity,0);
+            bullseye.transform.SetParent(this.transform.parent);
         }
         if(ball_present && (throw_ball != null))
         {
@@ -124,7 +123,6 @@ public class Rubber : MonoBehaviourPun
             impulse = new Vector3((rubber_strain/8)*sinAngle, angle, (rubber_strain/8)*cosAngle);
             throw_ball.GetComponent<Rigidbody>().mass = 1;
             throw_ball.GetComponent<Rigidbody>().AddRelativeForce(impulse,ForceMode.Impulse);
-            Destroy(bullseye);
             throw_ball.transform.SetParent(null, true);
             throw_ball = null;
         }
