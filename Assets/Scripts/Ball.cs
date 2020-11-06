@@ -22,7 +22,7 @@ public class Ball : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision) //destroys ball after hitting an object (ground)
     {
-        if (collision.gameObject.name == "Plane") //if the name of the ground is changed this has to change as well
+        if ((collision.gameObject.name == "Plane") || (collision.gameObject.name == "Floor")) //if the name of the ground is changed this has to change as well
         { 
             Debug.Log("destroy");
             Destroy(this.gameObject);
