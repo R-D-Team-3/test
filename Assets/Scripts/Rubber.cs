@@ -101,7 +101,7 @@ public class Rubber : MonoBehaviourPun
         {
             Debug.Log("Ball instantiated by player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
-            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position, Quaternion.identity, 0);
+            throw_ball = Instantiate(ballPrefab, this.transform.position, Quaternion.identity);
             throw_ball.transform.parent = this.transform.parent;
             bullseye = Instantiate(bullseyePrefab, new Vector3(0,0,0),Quaternion.identity);
             bullseye.transform.SetParent(throw_ball.transform.parent);
