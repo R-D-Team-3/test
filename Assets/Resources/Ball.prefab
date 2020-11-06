@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impulse: {x: 0, y: 5, z: 5}
-  creator: {fileID: 0}
 --- !u!114 &7997608278393923415
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
 {
     public Vector3 impulse;
     bool shootButtonWasPressed = false;
+    bool pastSelf = false;
     int amountOfJumpsPerBall = 1;
 
     // Start is called before the first frame update
@@ -28,6 +29,17 @@ public class Ball : MonoBehaviour
             Debug.Log("destroy");
             Destroy(this.gameObject);
             Destroy(GameObject.Find("BullsEye"));
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (pastSelf)
+            {
+                Debug.Log("Player hit!");
+            } else
+            {
+                pastSelf = true;
+            }
         }
     }
 }
