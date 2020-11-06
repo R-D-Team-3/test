@@ -87,6 +87,7 @@ public class Rubber : MonoBehaviourPun
     }
     void FixedUpdate()
     {
+
         // Ignore everything if this is another player's object
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
@@ -101,8 +102,13 @@ public class Rubber : MonoBehaviourPun
         {
             Debug.Log("Ball instantiated by player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
-            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position, Quaternion.identity, 0);
+            throw_ball = PhotonNetwork.Instantiate("Ball", this.transform.position + new Vector3(0, 4, 0), Quaternion.identity, 0);
+            throw_ball.GetComponent<Ball>().creator = transform.parent.gameObject;
+
             throw_ball.transform.parent = this.transform.parent;
+
+            Physics.IgnoreCollision(throw_ball.GetComponent<Collider>(), this.GetComponentInParent<Collider>());
+
             bullseye = Instantiate(bullseyePrefab, new Vector3(0,0,0),Quaternion.identity);
             bullseye.transform.SetParent(throw_ball.transform.parent);
         }

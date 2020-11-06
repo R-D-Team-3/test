@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8445621303158312737}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impulse: {x: 0, y: 5, z: 5}
+  creator: {fileID: 0}
 --- !u!114 &7997608278393923415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,6 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
   - {fileID: 8445621303158312737}
   viewIdField: 0
   InstantiationId: 0
