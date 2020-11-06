@@ -625,15 +625,25 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4646620361425823437, guid: 36ee9a413639a5248afc78c0d180b1a9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646620361425823437, guid: 36ee9a413639a5248afc78c0d180b1a9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4646620361425823438, guid: 36ee9a413639a5248afc78c0d180b1a9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4646620361425823475, guid: 36ee9a413639a5248afc78c0d180b1a9,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4646620363036582792, guid: 36ee9a413639a5248afc78c0d180b1a9,
         type: 3}

@@ -9,10 +9,12 @@ public class PlayerManager : MonoBehaviourPun
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
-
+    float compass_input;
     // Start is called before the first frame update
     void Start()
     {
+        Input.compass.enabled = true;
+        Input.location.Start();
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
 
 
@@ -45,6 +47,21 @@ public class PlayerManager : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
+        compass_input = Input.compass.magneticHeading;
+    }
+    void FixedUpdate()
+    {
+        // Ignore everything if this is another player's object
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        {
+            return;
+        }
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.deltaTime * 3);
     }
 }
