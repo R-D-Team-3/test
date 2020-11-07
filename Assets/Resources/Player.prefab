@@ -427,6 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1546e00e5673747ade8b72fd34afd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballPrefab: {fileID: 0}
+  bullseyePrefab: {fileID: 0}
 --- !u!114 &1322696534894288119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,4 +632,3 @@ MonoBehaviour:
   bullseyePrefab: {fileID: 304299117315483647, guid: 6099fd0f910d444af80dd251d87ad5b4,
     type: 3}
   slingshot: {fileID: 0}
-  angle: 0

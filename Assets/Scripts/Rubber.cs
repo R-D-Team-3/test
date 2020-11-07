@@ -21,7 +21,7 @@ public class Rubber : MonoBehaviourPun
     GameObject bullseye;
     GameObject throw_ball;
     Vector3 impulse;
-    public float angle;
+    float angle;
     float dist_slingshot;   // Indicates the distance of the bullseye from the slingshot.
     float airtime;          // The duration between the departure and collision of the ball
     float gravity = (float) 9.81;
@@ -46,9 +46,7 @@ public class Rubber : MonoBehaviourPun
         {
             return;
         }
-
         angle = Input.acceleration.y * -10;
-
         if (Input.touchCount > 0 )
         {
             pulltouch = Input.GetTouch(0); 

@@ -942,6 +942,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1489450642693220601, guid: 36ee9a413639a5248afc78c0d180b1a9,
+        type: 3}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
+        type: 3}
+    - target: {fileID: 1489450642693220601, guid: 36ee9a413639a5248afc78c0d180b1a9,
+        type: 3}
+      propertyPath: bullseyePrefab
+      value: 
+      objectReference: {fileID: 304299117315483647, guid: 6099fd0f910d444af80dd251d87ad5b4,
+        type: 3}
     - target: {fileID: 1821163592517580679, guid: 36ee9a413639a5248afc78c0d180b1a9,
         type: 3}
       propertyPath: viewIdField
@@ -1032,5 +1044,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4646620363120117952, guid: 36ee9a413639a5248afc78c0d180b1a9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4646620363120117952, guid: 36ee9a413639a5248afc78c0d180b1a9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 36ee9a413639a5248afc78c0d180b1a9, type: 3}
