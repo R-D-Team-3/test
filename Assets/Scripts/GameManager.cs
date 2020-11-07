@@ -32,14 +32,13 @@ namespace Com.Team3.Game
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-6f, 0f, 0f), Quaternion.identity, 0);
+                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-3f, 0f, 0f), Quaternion.identity, 0);
                     } else
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(6f, 0f, 0f), Quaternion.identity, 0);
-                    }
-                    
+                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(3f, 0f, 0f), Quaternion.identity, 0);
+                    } 
                 }
                 else
                 {
