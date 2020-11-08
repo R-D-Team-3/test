@@ -428,8 +428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1546e00e5673747ade8b72fd34afd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 0}
-  bullseyePrefab: {fileID: 0}
+  ballPrefab: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
+    type: 3}
+  bullseyePrefab: {fileID: 304299117315483647, guid: 6099fd0f910d444af80dd251d87ad5b4,
+    type: 3}
 --- !u!114 &1322696534894288119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,7 +637,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4646620363120117954}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d02d6a385284341f89dc772246582f38, type: 3}
   m_Name: 
