@@ -135,7 +135,7 @@ public class PlayerManager : MonoBehaviourPun
             float airtime = (angle*2 + Mathf.Sqrt((angle*angle*4) + (40 * holder.transform.position.y))) /20;
             float forwardvelocity = rubber_strain / 8;
             float dist_slingshot = airtime * forwardvelocity;
-            bullseye.transform.localPosition = new Vector3(bullseye.transform.localPosition.x, 0.2f, 5-dist_slingshot);
+            bullseye.transform.localPosition = new Vector3(0,0,0);
         }
         if((!ball_present)&&(throw_ball != null))
         {
