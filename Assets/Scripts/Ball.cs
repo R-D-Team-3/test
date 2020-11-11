@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     bool shootButtonWasPressed = false;
     bool pastSelf = false;
     int amountOfJumpsPerBall = 1;
+    public Healthbar healthbarScript;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,9 @@ public class Ball : MonoBehaviour
         {
             if (pastSelf)
             {
+                GameObject obj = GameObject.Find("Healthbar1");
+                healthbarScript = obj.GetComponent<Healthbar>();
+                healthbarScript.TakeDamage(30);
                 Debug.Log("Player hit!");
             } else
             {
