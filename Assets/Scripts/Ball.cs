@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class Ball : MonoBehaviour
+public class Ball : MonoBehaviourPun
 {
     public Vector3 impulse;
     bool shootButtonWasPressed = false;
     bool pastSelf = false;
     int amountOfJumpsPerBall = 1;
-    public Healthbar healthbarScript;
+    private Healthbar healthbarScript;
+    public GameObject explosionEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,8 @@ public class Ball : MonoBehaviour
         {
             if (pastSelf)
             {
+                photonView.RPC("explode", RpcTarget.All);
+
                 GameObject obj = GameObject.Find("Healthbar1");
                 healthbarScript = obj.GetComponent<Healthbar>();
                 healthbarScript.TakeDamage(30);
@@ -44,5 +47,13 @@ public class Ball : MonoBehaviour
                 pastSelf = true;
             }
         }
+    }
+    [PunRPC]
+    void explode()
+    {
+
+        GameObject o = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Destroy(o, 3);
+        Destroy(this.gameObject);
     }
 }

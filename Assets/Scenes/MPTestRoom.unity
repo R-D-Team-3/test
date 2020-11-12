@@ -455,6 +455,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Healthbar1
       objectReference: {fileID: 0}
+    - target: {fileID: 114842927137272866, guid: b354ef0b9d76cde47bc9d570aa89cdf8,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224383897800939226, guid: b354ef0b9d76cde47bc9d570aa89cdf8,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -607,8 +612,8 @@ MonoBehaviour:
   maximumHealth: 100
   lowHealth: 33
   highHealth: 66
-  regenerateHealth: 0
-  healthPerSecond: 0
+  regenerateHealth: 1
+  healthPerSecond: 5
   highHealthColor: {r: 0.35, g: 1, b: 0.35, a: 1}
   mediumHealthColor: {r: 0.9450285, g: 1, b: 0.4481132, a: 1}
   lowHealthColor: {r: 1, g: 0.259434, b: 0.259434, a: 1}
