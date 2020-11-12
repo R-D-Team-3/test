@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.Android;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class PlayerManager : MonoBehaviourPun
@@ -39,6 +40,9 @@ public class PlayerManager : MonoBehaviourPun
     float[] longBuffer = new float[5];
     int location = 0;
     int counter = 0;
+    private Healthbar healthbarScript;
+    [SerializeField]
+    public Text notificationText;
 
     // Start is called before the first frame update
     void Start()
@@ -168,6 +172,27 @@ public class PlayerManager : MonoBehaviourPun
             throw_ball = null;
             Destroy(bullseye, 1); // destroy after 1sec
         }
+
+        //Death implementation
+        GameObject obj = GameObject.Find("Healthbar1");
+        healthbarScript = obj.GetComponent<Healthbar>();
+        if (healthbarScript.health == healthbarScript.minimumHealth)
+        {
+            StartCoroutine(sendDeathNotification(10));
+            healthbarScript.health = healthbarScript.maximumHealth;
+        }
+
+    }
+    IEnumerator sendDeathNotification(int time)
+    {
+        for (int i=time; i>0; i--)
+        {
+            string newstring = "You died. Reviving in " + i + " seconds.";
+            notificationText.text = (newstring);
+            yield return new WaitForSeconds(1);
+        }
+        notificationText.text = "";
+
     }
     IEnumerator GetLocation()
     {
