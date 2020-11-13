@@ -9,7 +9,7 @@ using Photon.Pun;
 
 public class PlayerManager : MonoBehaviourPun
 {
-
+    public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     bool ball_present;
     public static GameObject LocalPlayerInstance;
@@ -178,22 +178,35 @@ public class PlayerManager : MonoBehaviourPun
         healthbarScript = obj.GetComponent<Healthbar>();
         if (healthbarScript.health == healthbarScript.minimumHealth)
         {
-            StartCoroutine(sendDeathNotification(10));
+            
+            StartCoroutine(showfloatingText());
+ //           StartCoroutine(sendDeathNotification(10));
             healthbarScript.health = healthbarScript.maximumHealth;
         }
 
     }
-    IEnumerator sendDeathNotification(int time)
+    IEnumerator showfloatingText()
     {
-        for (int i=time; i>0; i--)
+        for(int i = 10; i>0; i--)
         {
             string newstring = "You died. Reviving in " + i + " seconds.";
-            notificationText.text = (newstring);
+            var go = Instantiate(floatingTextPrefab, new Vector3(330, 250, 0), Quaternion.identity);
+            go.GetComponent<TextMesh>().text = newstring;
             yield return new WaitForSeconds(1);
         }
-        notificationText.text = "";
-
+        
     }
+//    IEnumerator sendDeathNotification(int time)
+//    {
+//        for (int i=time; i>0; i--)
+//        {
+//            string newstring = "You died. Reviving in " + i + " seconds.";
+//            notificationText.text = (newstring);
+//            yield return new WaitForSeconds(1);
+//        }
+//        notificationText.text = "";
+
+//    }
     IEnumerator GetLocation()
     {
         isUpdating = true;

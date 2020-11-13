@@ -428,10 +428,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1546e00e5673747ade8b72fd34afd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floatingTextPrefab: {fileID: 1038678675301917369, guid: 4ee019b1c9e10de478680d94b1aa6163,
+    type: 3}
   ballPrefab: {fileID: 1203413993739579205, guid: 603a399d051190546896d3808674ab3d,
     type: 3}
   bullseyePrefab: {fileID: 304299117315483647, guid: 6099fd0f910d444af80dd251d87ad5b4,
     type: 3}
+  notificationText: {fileID: 0}
 --- !u!114 &1322696534894288119
 MonoBehaviour:
   m_ObjectHideFlags: 0
