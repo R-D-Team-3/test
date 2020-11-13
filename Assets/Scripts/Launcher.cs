@@ -16,7 +16,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private Text feedbackText;
 
     [SerializeField]
-    private byte maxPlayersPerRoom = 2;
+    private byte maxPlayersPerRoom = 4;
 
     bool isConnecting;
 

@@ -152,8 +152,8 @@ public class PlayerManager : MonoBehaviourPun
             throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity,0);
             Physics.IgnoreCollision(throw_ball.GetComponent<Collider>(), GetComponent<Collider>());
             throw_ball.transform.parent = this.transform;
-            bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.position,Quaternion.identity,0);
-            bullseye.transform.parent = this.transform;
+            //bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.position,Quaternion.identity,0);
+            //bullseye.transform.parent = this.transform;
         }
         if(ball_present && (throw_ball != null))
         {
@@ -163,7 +163,7 @@ public class PlayerManager : MonoBehaviourPun
             float airtime = (angle*2 + Mathf.Sqrt((angle*angle*4) + (40 * holder.transform.position.y))) /20;
             float forwardvelocity = rubber_strain / 8;
             float dist_slingshot = airtime * forwardvelocity;
-            bullseye.transform.localPosition = new Vector3(0,0,0);
+            //bullseye.transform.localPosition = new Vector3(0,0,0);
         }
         if((!ball_present)&&(throw_ball != null))
         {
@@ -171,10 +171,10 @@ public class PlayerManager : MonoBehaviourPun
             //impulse = new Vector3((rubber_strain/8), angle, 0);
             throw_ball.GetComponent<Rigidbody>().useGravity = true;
             throw_ball.GetComponent<Rigidbody>().AddRelativeForce(impulse,ForceMode.Impulse);
-            bullseye.transform.SetParent(null,true);
+            //bullseye.transform.SetParent(null,true);
             throw_ball.transform.SetParent(null, true);
             throw_ball = null;
-            Destroy(bullseye, 1); // destroy after 1sec
+            //Destroy(bullseye, 1); // destroy after 1sec
         }
 
         //Death implementation
