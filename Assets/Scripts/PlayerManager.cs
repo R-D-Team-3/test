@@ -190,15 +190,15 @@ public class PlayerManager : MonoBehaviourPun
     }
     IEnumerator showfloatingText()
     {
-        var go = Instantiate(floatingTextPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        go.transform.SetParent(GameObject.Find("deadTextAnchor").transform, false);
+        Text text = GameObject.Find("deadTextAnchor").GetComponent<Text>();
         for (int i = 10; i>0; i--)
         {
             string newstring = "You died. Reviving in " + i + " seconds.";
-            go.GetComponent<TextMesh>().text = newstring;
+            text.text = newstring;
             yield return new WaitForSeconds(1);
         }
         deadTimerDone = true;
+        text.text = "";
     }
 
     IEnumerator revive()
