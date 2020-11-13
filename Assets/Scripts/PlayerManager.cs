@@ -44,9 +44,13 @@ public class PlayerManager : MonoBehaviourPun
     [SerializeField]
     public Text notificationText;
 
+    bool dead = false;
+    bool deadTimerDone = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        startPos = transform.position;
         ball_present = false;
         rubber_strain = 0f;
         rubber_force = 1f;
@@ -176,37 +180,41 @@ public class PlayerManager : MonoBehaviourPun
         //Death implementation
         GameObject obj = GameObject.Find("Healthbar1");
         healthbarScript = obj.GetComponent<Healthbar>();
-        if (healthbarScript.health == healthbarScript.minimumHealth)
+        if (healthbarScript.health == healthbarScript.minimumHealth && !dead)
         {
-            
+            dead = true;
             StartCoroutine(showfloatingText());
- //           StartCoroutine(sendDeathNotification(10));
-            healthbarScript.health = healthbarScript.maximumHealth;
+            StartCoroutine(revive());
         }
 
     }
     IEnumerator showfloatingText()
     {
-        for(int i = 10; i>0; i--)
+        var go = Instantiate(floatingTextPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        go.transform.SetParent(GameObject.Find("deadTextAnchor").transform, false);
+        for (int i = 10; i>0; i--)
         {
             string newstring = "You died. Reviving in " + i + " seconds.";
-            var go = Instantiate(floatingTextPrefab, new Vector3(330, 250, 0), Quaternion.identity);
             go.GetComponent<TextMesh>().text = newstring;
             yield return new WaitForSeconds(1);
         }
-        
+        deadTimerDone = true;
     }
-//    IEnumerator sendDeathNotification(int time)
-//    {
-//        for (int i=time; i>0; i--)
-//        {
-//            string newstring = "You died. Reviving in " + i + " seconds.";
-//            notificationText.text = (newstring);
-//            yield return new WaitForSeconds(1);
-//        }
-//        notificationText.text = "";
 
-//    }
+    IEnumerator revive()
+    {
+        while (!deadTimerDone)
+        {
+            //wait for showFloatingText
+            yield return new WaitForSeconds(0.1f);
+        }
+        healthbarScript.GainHealth(100);
+        deadTimerDone = false;
+        dead = false;
+        healthbarScript.ChangeHealthbarColor(new Color(0.35f, 1f, 0.35f));
+
+    }
+
     IEnumerator GetLocation()
     {
         isUpdating = true;
