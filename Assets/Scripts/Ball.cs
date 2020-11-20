@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class Ball : MonoBehaviourPun
+public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public Vector3 impulse;
     bool shootButtonWasPressed = false;
-    bool pastSelf = false;
     int amountOfJumpsPerBall = 1;
     private Healthbar healthbarScript;
     public GameObject explosionEffect;
+    int FiringPlayer_ID;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Ball instantiated");
     }
-
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        object[] Data = info.photonView.InstantiationData;
+        FiringPlayer_ID = (int)Data[0];
+    
+        Debug.Log("Ball instantiated(instantiate) with playerID: "+ FiringPlayer_ID);
+    }
 
     // Update is called once per frame    
     
@@ -34,17 +40,17 @@ public class Ball : MonoBehaviourPun
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (pastSelf)
+            if (collision.gameObject.GetComponent<PhotonView>().ViewID == this.FiringPlayer_ID)
+            {
+                Debug.Log("Player self hit");
+            }
+            else
             {
                 photonView.RPC("explode", RpcTarget.All);
-
                 GameObject obj = GameObject.Find("Healthbar1");
                 healthbarScript = obj.GetComponent<Healthbar>();
                 healthbarScript.TakeDamage(30);
-                Debug.Log("Player hit!");
-            } else
-            {
-                pastSelf = true;
+                Debug.Log("Player "+FiringPlayer_ID+" hit"+collision.gameObject.GetComponent<PhotonView>().ViewID+"!");
             }
         }
     }
@@ -54,6 +60,6 @@ public class Ball : MonoBehaviourPun
 
         GameObject o = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(o, 3);
-        Destroy(this.gameObject);
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }

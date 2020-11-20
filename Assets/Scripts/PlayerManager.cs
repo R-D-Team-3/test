@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviourPun
 
     bool dead = false;
     bool deadTimerDone = false;
-
+    int Player_ID;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +81,8 @@ public class PlayerManager : MonoBehaviourPun
     {
         // #Important
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+        Player_ID = this.gameObject.GetComponent<PhotonView>().ViewID;
+        Debug.Log("PLayerID="+ Player_ID);
         if (photonView.IsMine)
         {
             PlayerManager.LocalPlayerInstance = this.gameObject;
@@ -149,10 +151,12 @@ public class PlayerManager : MonoBehaviourPun
         {
             Debug.Log("Ball instantiated by Player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
-            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity,0);
+            object[] Data = new object[1];
+            Data[0] = (object)Player_ID;
+            throw_ball = PhotonNetwork.Instantiate(ballPrefab.name, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity,0,Data);
             Physics.IgnoreCollision(throw_ball.GetComponent<Collider>(), GetComponent<Collider>());
             throw_ball.transform.parent = this.transform;
-            bullseye = PhotonNetwork.Instantiate(bullseyePrefab.name, this.transform.position,Quaternion.identity,0);
+            bullseye = Instantiate(bullseyePrefab, this.transform.position,Quaternion.identity);
             bullseye.transform.parent = this.transform;
         }
         if(ball_present && (throw_ball != null))
@@ -163,7 +167,7 @@ public class PlayerManager : MonoBehaviourPun
             float airtime = (angle*2 + Mathf.Sqrt((angle*angle*4) + (40 * holder.transform.position.y))) /20;
             float forwardvelocity = rubber_strain / 8;
             float dist_slingshot = airtime * forwardvelocity;
-            bullseye.transform.localPosition = new Vector3(0,1,dist_slingshot);
+            bullseye.transform.localPosition = new Vector3(0,0.1f,dist_slingshot);
         }
         if((!ball_present)&&(throw_ball != null))
         {
@@ -174,7 +178,7 @@ public class PlayerManager : MonoBehaviourPun
             bullseye.transform.SetParent(null,true);
             throw_ball.transform.SetParent(null, true);
             throw_ball = null;
-            Destroy(bullseye, 1); // destroy after 1sec
+            Destroy(bullseye,1); // destroy after 1sec
         }
 
         //Death implementation
