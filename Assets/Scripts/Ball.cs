@@ -8,6 +8,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
     bool shootButtonWasPressed = false;
     int amountOfJumpsPerBall = 1;
     private Healthbar healthbarScript;
+    private PlayerManager FiringPLayer;
     public GameObject explosionEffect;
     int FiringPlayer_ID;
 
@@ -47,9 +48,10 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
             else
             {
                 photonView.RPC("explode", RpcTarget.All);
-                GameObject obj = GameObject.Find("Healthbar1");
-                healthbarScript = obj.GetComponent<Healthbar>();
+                healthbarScript = collision.gameObject.GetComponent<PlayerManager>().healthbarScript;
                 healthbarScript.TakeDamage(30);
+                FiringPLayer = PhotonView.Find(FiringPlayer_ID).gameObject.GetComponent<PlayerManager>();
+                FiringPLayer.GivePoints(30);
                 Debug.Log("Player "+FiringPlayer_ID+" hit"+collision.gameObject.GetComponent<PhotonView>().ViewID+"!");
             }
         }

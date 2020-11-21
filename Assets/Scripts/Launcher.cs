@@ -26,7 +26,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Header("Custom Variables")]
     public InputField playerNameField;
     public InputField roomNameField;
-
+    public Dropdown teampChoice;
     [Space(5)]
     public Text playerStatus;
     public Text connectionStatus;
@@ -69,7 +69,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         roomName = name;
     }
-
+    public void setPlayerTeam(int team)
+    {
+        Debug.Log("Team set as"+team);
+    }
     // Methods
     void ConnectToPhoton()
     {

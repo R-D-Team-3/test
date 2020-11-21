@@ -8,7 +8,7 @@ public class Healthbar : MonoBehaviour {
 
     // Visible health bar ui:
     private Slider healthbarDisplay;
-
+    public int Player_ID;
     [Header("Main Variables:")]
     // Health variable: (default range: 0-100)
     [Tooltip("Health variable: (default range: 0-100)")] public float health = 100;

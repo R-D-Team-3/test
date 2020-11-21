@@ -40,16 +40,18 @@ public class PlayerManager : MonoBehaviourPun
     float[] longBuffer = new float[5];
     int location = 0;
     int counter = 0;
-    private Healthbar healthbarScript;
+    public Healthbar healthbarScript;
     [SerializeField]
     public Text notificationText;
-
+    int myPoints;
     bool dead = false;
     bool deadTimerDone = false;
     int Player_ID;
+    object[] teamlist;
     // Start is called before the first frame update
     void Start()
     {
+        myPoints = 0;
         startPos = transform.position;
         ball_present = false;
         rubber_strain = 0f;
@@ -184,6 +186,7 @@ public class PlayerManager : MonoBehaviourPun
         //Death implementation
         GameObject obj = GameObject.Find("Healthbar1");
         healthbarScript = obj.GetComponent<Healthbar>();
+        healthbarScript.Player_ID = Player_ID;
         if (healthbarScript.health == healthbarScript.minimumHealth && !dead)
         {
             dead = true;
@@ -191,6 +194,10 @@ public class PlayerManager : MonoBehaviourPun
             StartCoroutine(revive());
         }
 
+    }
+    public void GivePoints(int points)
+    {
+        myPoints = myPoints + points;
     }
     IEnumerator showfloatingText()
     {
