@@ -19,7 +19,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private byte maxPlayersPerRoom = 4;
 
     bool isConnecting;
-
+    bool isTeamBlue;
     string gameVersion = "1";
 
     [Space(10)]
@@ -71,7 +71,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void setPlayerTeam(int team)
     {
-        Debug.Log("Team set as"+team);
+        if (team==1)
+        {
+            Debug.Log("Team set as Blue");
+            isTeamBlue = true;
+        }
+        else
+        {
+            Debug.Log("Team set as Red");
+            isTeamBlue = false;
+        }
     }
     // Methods
     void ConnectToPhoton()
