@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 78161650}
   - component: {fileID: 78161652}
   - component: {fileID: 78161651}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 475886693}
   - component: {fileID: 475886692}
   - component: {fileID: 475886694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 480218602}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 584293484}
   - component: {fileID: 584293483}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 655478547}
   - component: {fileID: 655478549}
   - component: {fileID: 655478548}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 768777961}
   - component: {fileID: 768777960}
   - component: {fileID: 768777963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AR Session
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 845860397}
   - component: {fileID: 845860396}
   - component: {fileID: 845860398}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AR Session Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 1091018148}
   - component: {fileID: 1091018150}
   - component: {fileID: 1091018149}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 1246653187}
   - component: {fileID: 1246653189}
   - component: {fileID: 1246653188}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: SliderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ GameObject:
   - component: {fileID: 1291405583}
   - component: {fileID: 1291405582}
   - component: {fileID: 1291405581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AR Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -799,7 +799,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 288
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 1357268405}
   - component: {fileID: 1357268407}
   - component: {fileID: 1357268406}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: notificationText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -963,7 +963,7 @@ GameObject:
   - component: {fileID: 1491472626}
   - component: {fileID: 1491472625}
   - component: {fileID: 1491472624}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1093,7 +1093,7 @@ GameObject:
   - component: {fileID: 1501969293}
   - component: {fileID: 1501969292}
   - component: {fileID: 1501969291}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 1554422318}
   - component: {fileID: 1554422317}
   - component: {fileID: 1554422316}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1258,7 +1258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1579260638}
   - component: {fileID: 1579260639}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

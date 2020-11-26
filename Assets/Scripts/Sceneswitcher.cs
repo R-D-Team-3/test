@@ -11,10 +11,11 @@ public class Sceneswitcher : MonoBehaviour
     }
     public void GotoImageRecognitionScene()
     {
-        SceneManager.LoadScene("ImageRecognitionScene");
+        SceneManager.LoadScene("ImageRecognitionScene", LoadSceneMode.Additive);
     }
     public void GotoMPTestRoom()
     {
-        SceneManager.LoadScene("MPTestRoom");
+        //SceneManager.LoadScene("MPTestRoom");
+        SceneManager.UnloadScene("ImageRecognitionScene");
     }
 }
