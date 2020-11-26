@@ -7,7 +7,7 @@ using UnityEngine.Android;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PlayerManager : MonoBehaviourPun
+public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
@@ -203,9 +203,19 @@ public class PlayerManager : MonoBehaviourPun
         }
 
     }
-    public void GivePoints(int points)
+    public void Hits(int points,bool teamblue)
     {
-        myPoints = myPoints + points;
+        if(teamblue!=playerIsTeamBlue)
+        {
+            myPoints = myPoints + points;
+        }
+    }
+    public void getHit(int points, bool teamblue)
+    {
+        if(teamblue!=playerIsTeamBlue)
+        {
+            healthbarScript.TakeDamage(points);
+        }
     }
     IEnumerator showfloatingText()
     {
