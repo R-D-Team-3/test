@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviourPun
     public static GameObject LocalPlayerInstance;
     public GameObject ballPrefab;
     public GameObject bullseyePrefab;
+    public bool playerIsTeamBlue;
     GameObject bullseye;
     GameObject throw_ball;
     GameObject rubber;
@@ -131,6 +132,13 @@ public class PlayerManager : MonoBehaviourPun
         Quaternion rotation = transform.rotation;
         sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
         cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
+    }
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        object[] Data = info.photonView.InstantiationData;
+        playerIsTeamBlue = (bool)Data[0];
+
+        Debug.Log("Player "+Player_ID+ "is in team blue? : "+playerIsTeamBlue);
     }
     void FixedUpdate()
     {

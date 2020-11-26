@@ -15,11 +15,14 @@ namespace Com.Team3.Game
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
-
+        public bool blueteam;
         #endregion
 
         private void Start()
         {
+            object[] playerinfo = new object[1];
+            blueteam = (bool)PhotonNetwork.LocalPlayer.CustomProperties["team"]; // isTeamBlue==true
+            playerinfo[0] = (object)blueteam;
             if (playerPrefab == null)
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
@@ -32,12 +35,12 @@ namespace Com.Team3.Game
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-3f, 0f, 0f), Quaternion.identity, 0);
+                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-3f, 0f, 0f), Quaternion.identity, 0,playerinfo);
                     } else
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(3f, 0f, 0f), Quaternion.identity, 0);
+                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(3f, 0f, 0f), Quaternion.identity, 0,playerinfo);
                     } 
                 }
                 else

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 
-public class Camera : MonoBehaviourPun
+public class Camera_example : MonoBehaviourPun
 {
     // Start is called before the first frame update
     void Start()
