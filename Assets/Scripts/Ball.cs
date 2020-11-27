@@ -48,10 +48,9 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
             else
             {
                 photonView.RPC("explode", RpcTarget.All);
-                healthbarScript = collision.gameObject.GetComponent<PlayerManager>().healthbarScript;
-                healthbarScript.TakeDamage(30);
                 FiringPLayer = PhotonView.Find(FiringPlayer_ID).gameObject.GetComponent<PlayerManager>();
-                FiringPLayer.GivePoints(30);
+                FiringPLayer.Hits(30,collision.gameObject.GetComponent<PlayerManager>().playerIsTeamBlue);
+                collision.gameObject.GetComponent<PlayerManager>().getHit(30,FiringPLayer.playerIsTeamBlue);
                 Debug.Log("Player "+FiringPlayer_ID+" hit"+collision.gameObject.GetComponent<PhotonView>().ViewID+"!");
             }
         }

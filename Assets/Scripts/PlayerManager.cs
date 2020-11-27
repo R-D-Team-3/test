@@ -7,7 +7,7 @@ using UnityEngine.Android;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PlayerManager : MonoBehaviourPun
+public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviourPun
     public static GameObject LocalPlayerInstance;
     public GameObject ballPrefab;
     public GameObject bullseyePrefab;
+    public bool playerIsTeamBlue;
     GameObject bullseye;
     GameObject throw_ball;
     GameObject rubber;
@@ -132,6 +133,13 @@ public class PlayerManager : MonoBehaviourPun
         sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
         cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
     }
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        object[] Data = info.photonView.InstantiationData;
+        playerIsTeamBlue = (bool)Data[0];
+
+        Debug.Log("Player "+Player_ID+ "is in team blue? : "+playerIsTeamBlue);
+    }
     void FixedUpdate()
     {
         // Ignore everything if this is another player's object
@@ -195,9 +203,19 @@ public class PlayerManager : MonoBehaviourPun
         }
 
     }
-    public void GivePoints(int points)
+    public void Hits(int points,bool teamblue)
     {
-        myPoints = myPoints + points;
+        if(teamblue!=playerIsTeamBlue)
+        {
+            myPoints = myPoints + points;
+        }
+    }
+    public void getHit(int points, bool teamblue)
+    {
+        if(teamblue!=playerIsTeamBlue)
+        {
+            healthbarScript.TakeDamage(points);
+        }
     }
     IEnumerator showfloatingText()
     {

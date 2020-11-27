@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement; // temporary
 using Photon.Pun;
 using Photon.Realtime;
 using System.Text;
-
+using ExitGames.Client.Photon;
 public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField]
@@ -16,7 +16,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private Text feedbackText;
 
     [SerializeField]
-    private byte maxPlayersPerRoom = 4;
+    private byte maxPlayersPerRoom = 8;
 
     bool isConnecting;
     bool isTeamBlue;
@@ -36,7 +36,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject roomJoinUI;
     public GameObject buttonLoadArena;
     public GameObject buttonJoinRoom;
-
+    public Camera cam;
     string playerName = "";
     string roomName = "";
 
@@ -75,11 +75,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Debug.Log("Team set as Blue");
             isTeamBlue = true;
+            cam.backgroundColor = Color.blue;
         }
         else
         {
             Debug.Log("Team set as Red");
             isTeamBlue = false;
+            cam.backgroundColor = Color.red;
         }
     }
     // Methods
@@ -92,9 +94,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
+        Hashtable playerinfo = new Hashtable();
+        playerinfo.Add("team",isTeamBlue);             
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
             Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
             RoomOptions roomOptions = new RoomOptions();
             TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);

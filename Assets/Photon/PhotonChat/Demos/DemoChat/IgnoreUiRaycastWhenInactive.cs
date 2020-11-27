@@ -7,9 +7,4 @@ public class IgnoreUiRaycastWhenInactive : MonoBehaviour, ICanvasRaycastFilter
     {
         return gameObject.activeInHierarchy;
     }
-
-    public bool IsRaycastLocationValid(Vector2 sp, UnityEngine.Camera eventCamera)
-    {
-        throw new System.NotImplementedException();
-    }
 }
