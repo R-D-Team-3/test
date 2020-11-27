@@ -84,7 +84,7 @@ public class ImageRecognition : MonoBehaviour
             //hier code om terug uit camerascene te gaan nadat scannen voltooid is
             
             StartCoroutine(SendNotification("Antenna succesfully captured!", 2));
-            SceneManager.LoadScene("SampleScene 1");
+            SceneManager.UnloadScene("ImageRecognitionScene");
         }
 
     }
