@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 using UnityEngine.SceneManagement; // temporary
@@ -16,10 +17,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     private Text feedbackText;
 
     [SerializeField]
-    private byte maxPlayersPerRoom = 8;
+    private byte maxPlayersPerRoom;
 
     bool isConnecting;
     bool isTeamBlue;
+    public int minPlayers;
     string gameVersion = "1";
 
     [Space(10)]
@@ -45,6 +47,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PlayerPrefs.DeleteAll();
 
+        maxPlayersPerRoom = Convert.ToByte(PlayerPrefs.GetInt("max"));
+        minPlayers = Convert.ToByte(PlayerPrefs.GetInt("min"));
         Debug.Log("Connecting to Photon Network");
 
         roomJoinUI.SetActive(false);
@@ -92,6 +96,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void DisconnectToPhoton()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
     public void JoinRoom()
     {
         Hashtable playerinfo = new Hashtable();
@@ -102,6 +111,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
             Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
             RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = maxPlayersPerRoom;
             TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);
             PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
         }
@@ -119,6 +129,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             playerStatus.text = "Minimum 2 Players required to Load Arena!";
         }
+    }
+
+    public void Back()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void BuildPlayerList()

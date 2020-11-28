@@ -42,11 +42,15 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     int location = 0;
     int counter = 0;
     public Healthbar healthbarScript;
+    public BallAmount ballAmountScript;
     [SerializeField]
     public Text notificationText;
     int myPoints;
     bool dead = false;
     bool deadTimerDone = false;
+    private int counter2 = 0;
+    private float[] accelerometerBuffer = new float[150];
+    private Boolean reload;
     int Player_ID;
     object[] teamlist;
     // Start is called before the first frame update
@@ -60,6 +64,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         Input.gyro.enabled = true;
         Input.compass.enabled = true;
         Input.location.Start();
+
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         if (_cameraWork != null)
         {
@@ -152,12 +157,32 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         oldPos = transform.position;
         transform.position = Vector3.MoveTowards(oldPos, startPos - (newPos * 80000), Time.deltaTime);
 
+        GameObject o = GameObject.Find("TextBallAmount");
+        ballAmountScript = o.GetComponent<BallAmount>();
+
         if (!isUpdating)
         {
             StartCoroutine(GetLocation());
         }
 
-        if ((throw_ball == null) && ball_present)
+        accelerometerBuffer[counter2] = (Input.acceleration.z * -10);
+        counter2++;
+        if (counter2 > 149)
+        {
+            counter2 = 0;
+        }
+        //Debug.Log(accelerometerBuffer.Average());
+
+        if (accelerometerBuffer.Average() > 10.3 && !reload)
+        {
+            Debug.Log(PlayerPrefs.GetInt("max"));
+
+            ballAmountScript.increment(1);
+            reload = true;
+            Invoke("waitOnReload", 2);
+        }
+
+        if ((throw_ball == null) && ball_present && ballAmountScript.getBallAmount() > 0)
         {
             Debug.Log("Ball instantiated by Player");
             //throw_ball = Instantiate(ballPrefab, new Vector3(0, 4, 0), Quaternion.identity);
@@ -243,6 +268,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         healthbarScript.ChangeHealthbarColor(new Color(0.35f, 1f, 0.35f));
 
     }
+    void waitOnReload()
+    {
+        reload = false;
+    }
 
     IEnumerator GetLocation()
     {
@@ -295,7 +324,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 latitude = gpsReadout.latitude;
                 longitude = gpsReadout.longitude;
-                UnityEngine.Debug.Log("first");
+
                 for (int i = 0; i < 5; i++)
                 {
                     latBuffer[i] = latitude;

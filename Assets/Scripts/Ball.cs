@@ -60,7 +60,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
 
         GameObject o = Instantiate(explosionEffect, transform.position, transform.rotation);
-        Destroy(o, 3);
+        Destroy(o, 1);
         PhotonNetwork.Destroy(this.gameObject);
     }
 }

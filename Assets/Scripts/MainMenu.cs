@@ -7,11 +7,15 @@ public class MainMenu : MonoBehaviour
 {
     public void StartSinglePlayer()
     {
-        SceneManager.LoadScene(1);
+        PlayerPrefs.SetInt("max", 1);
+        PlayerPrefs.SetInt("min", 1);
+        SceneManager.LoadScene(2);
     }
 
     public void StartMultiPlayer()
     {
+        PlayerPrefs.SetInt("max", 4);
+        PlayerPrefs.SetInt("min", 2);
         SceneManager.LoadScene(2);
     }
 }
