@@ -45,10 +45,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     // Start Method
     void Start()
     {
-        PlayerPrefs.DeleteAll();
-
         maxPlayersPerRoom = Convert.ToByte(PlayerPrefs.GetInt("max"));
         minPlayers = Convert.ToByte(PlayerPrefs.GetInt("min"));
+
+        PlayerPrefs.DeleteAll();
+
         Debug.Log("Connecting to Photon Network");
 
         roomJoinUI.SetActive(false);
@@ -119,7 +120,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LoadArena()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= minPlayers)
         {
             // TEMPORARY, CHANGE LATER!!!!!!!!!!!
             PhotonNetwork.LoadLevel("MPTestRoom");

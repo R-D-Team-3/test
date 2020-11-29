@@ -436,6 +436,7 @@ MonoBehaviour:
     type: 3}
   playerIsTeamBlue: 0
   healthbarScript: {fileID: 0}
+  ballAmountScript: {fileID: 0}
   notificationText: {fileID: 0}
 --- !u!114 &1322696534894288119
 MonoBehaviour:
