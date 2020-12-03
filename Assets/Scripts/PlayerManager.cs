@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine.Android;
 using UnityEngine.UI;
 using Photon.Pun;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public GameObject floatingTextPrefab;
@@ -232,9 +232,35 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     }
     public void Hits(int points,bool teamblue)
     {
+        Text my_point_text = GameObject.Find("myPoints").GetComponent<Text>();
+        Text team_point_text = GameObject.Find("teamPoints").GetComponent<Text>();
         if(teamblue!=playerIsTeamBlue)
         {
             myPoints = myPoints + points;
+            my_point_text.text = myPoints.ToString(); 
+            Hashtable updatePoints = new Hashtable();
+            int teampoints = 0;
+            string key ="";
+            if(playerIsTeamBlue)
+            {
+                teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
+                key = "BluePoints";   
+            }
+            else
+            {
+                teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
+                key = "RedPoints";
+            }
+            if((teampoints+points)>=300)
+            {
+                updatePoints.Add("RedWon",!playerIsTeamBlue);
+                updatePoints.Add("BlueWon",playerIsTeamBlue);
+                Debug.Log(key+ " team has won!");
+            }
+            team_point_text.text = (teampoints+points).ToString(); 
+            updatePoints.Add(key,teampoints+points);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(updatePoints);
+
         }
     }
     public void getHit(int points, bool teamblue)

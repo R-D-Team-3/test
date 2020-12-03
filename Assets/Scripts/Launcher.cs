@@ -105,6 +105,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         Hashtable playerinfo = new Hashtable();
+        Hashtable roominfo = new Hashtable();
+        roominfo.Add("RedPoints",0);
+        roominfo.Add("BluePoints",0);
+        roominfo.Add("BlueWon",false);
+        roominfo.Add("RedWon",false);
         playerinfo.Add("team",isTeamBlue);             
         if (PhotonNetwork.IsConnected)
         {
@@ -115,6 +120,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             roomOptions.MaxPlayers = maxPlayersPerRoom;
             TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);
             PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roominfo);
         }
     }
 
