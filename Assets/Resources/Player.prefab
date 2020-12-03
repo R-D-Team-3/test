@@ -438,6 +438,7 @@ MonoBehaviour:
   healthbarScript: {fileID: 0}
   ballAmountScript: {fileID: 0}
   notificationText: {fileID: 0}
+  dead: 0
 --- !u!114 &1322696534894288119
 MonoBehaviour:
   m_ObjectHideFlags: 0

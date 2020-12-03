@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     [SerializeField]
     public Text notificationText;
     int myPoints;
-    bool dead = false;
+    public bool dead = false;
     bool deadTimerDone = false;
     private int counter2 = 0;
     private float[] accelerometerBuffer = new float[150];
@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("dead", 0);
         myPoints = 0;
         startPos = transform.position;
         ball_present = false;
@@ -108,11 +109,11 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             return;
         }
         angle = Input.acceleration.y * -10;
-        if (Input.touchCount > 0 )
+        if (Input.touchCount > 0 && dead == false)
         {
             pulltouch = Input.GetTouch(0); 
             start_pos = pulltouch.rawPosition;
-            if((start_pos.x > Screen.width/3) && (start_pos.x < 2*Screen.width/3) && (start_pos.y < Screen.height/4 ))
+            if((start_pos.x > Screen.width/3) && (start_pos.x < 2*Screen.width/3) && (start_pos.y < Screen.height/3 ))
             {
                 pull_pos = pulltouch.position;
                 if(pull_pos.y < start_pos.y)
@@ -221,8 +222,9 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         healthbarScript = obj.GetComponent<Healthbar>();
         healthbarScript.Player_ID = Player_ID;
         if (healthbarScript.health == healthbarScript.minimumHealth && !dead)
-        {
+        {            
             dead = true;
+            PlayerPrefs.SetInt("dead", 1);
             StartCoroutine(showfloatingText());
             StartCoroutine(revive());
         }
@@ -265,6 +267,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         healthbarScript.GainHealth(100);
         deadTimerDone = false;
         dead = false;
+        PlayerPrefs.SetInt("dead", 0);
         healthbarScript.ChangeHealthbarColor(new Color(0.35f, 1f, 0.35f));
 
     }

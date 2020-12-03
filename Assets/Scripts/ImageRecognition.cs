@@ -32,7 +32,6 @@ public class ImageRecognition : MonoBehaviour
         sliderCount = 0;
         slider.value = sliderCount;
         sliderText.text = 0f * 100f + "%";
-
     }
 
     public void OnEnable()
@@ -83,7 +82,7 @@ public class ImageRecognition : MonoBehaviour
         if(slider.value == 1){
             //hier code om terug uit camerascene te gaan nadat scannen voltooid is
             
-            StartCoroutine(SendNotification("Antenna succesfully captured!", 2));
+            StartCoroutine(SendNotification("Antenna succesfully captured!", 3));
             SceneManager.UnloadScene("ImageRecognitionScene");
         }
 
