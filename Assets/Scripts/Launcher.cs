@@ -105,7 +105,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         Hashtable playerinfo = new Hashtable();
-        playerinfo.Add("team",isTeamBlue);             
+        playerinfo.Add("team", isTeamBlue);
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
