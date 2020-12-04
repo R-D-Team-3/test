@@ -59,6 +59,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     Hashtable resettable;
     public int tutorialIndex;
     bool tutorialButtonsDeleted = false;
+    bool tutorial = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -219,9 +220,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             Destroy(GameObject.Find("tutorialNextButton"));
             Destroy(GameObject.Find("tutorialSkipButton"));
             tutorialButtonsDeleted = true;
+            tutorial = false;
         }
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        if ((PhotonNetwork.CurrentRoom.PlayerCount == 1) && (tutorial == true))
         {
             Text tutorialText = GameObject.Find("tutorialText").GetComponent<Text>();
             //nextButton = GameObject.Find("tutorialNextButton").getComponent<Button>();
