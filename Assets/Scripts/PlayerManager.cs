@@ -56,13 +56,17 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     object[] teamlist;
     Text team_point_text;
     Text my_point_text;
+    int teampoints;
+    Hashtable resettable;
     // Start is called before the first frame update
     void Start()
     {
+        resettable = new Hashtable();
         my_point_text = GameObject.Find("myPoints").GetComponent<Text>();
         team_point_text = GameObject.Find("teamPoints").GetComponent<Text>();
         PlayerPrefs.SetInt("dead", 0);
         myPoints = 0;
+        teampoints = 0;
         startPos = transform.position;
         ball_present = false;
         rubber_strain = 0f;
@@ -144,11 +148,14 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
         cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
         my_point_text.text = myPoints.ToString();
+        team_point_text.text = teampoints.ToString();
         if(playerIsTeamBlue)
         {
-            team_point_text.text = PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"].ToString();
-            if((int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"]>=MAX_POINTS)
+            teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
+            if(teampoints>=MAX_POINTS)
             {
+                resettable.Add("BluePoints",0);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(resettable);
                 dead = true;
                 PlayerPrefs.SetInt("dead", 1);
                 StartCoroutine(showfloatingText("You Won, restaring in ",false));
@@ -156,6 +163,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             if((int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"]>=MAX_POINTS)
             {
+                resettable.Add("RedPoints",0);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(resettable);
                 dead = true;
                 PlayerPrefs.SetInt("dead", 1);
                 StartCoroutine(showfloatingText("You Lost, restaring in ",true));
@@ -164,9 +173,11 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         else
         {
-            team_point_text.text = PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"].ToString();
-            if((int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"]>=MAX_POINTS)
+            teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
+            if(teampoints>=MAX_POINTS)
             {
+                resettable.Add("RedPoints",0);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(resettable);
                 dead = true;
                 PlayerPrefs.SetInt("dead", 1);
                 StartCoroutine(showfloatingText("You Won, restaring in ",false));
@@ -174,6 +185,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             if((int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"]>=MAX_POINTS)
             {
+                resettable.Add("BluePoints",0);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(resettable);
                 dead = true;
                 PlayerPrefs.SetInt("dead", 1);
                 StartCoroutine(showfloatingText("You Lost, restaring in ",true));
@@ -282,20 +295,20 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             myPoints = myPoints + points;
             Hashtable updatePoints = new Hashtable();
-            int teampoints = 0;
+            int tp = 0;
             string key ="";
             if(playerIsTeamBlue)
             {
-                teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
+                tp = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
                 key = "BluePoints";
             }
             else
             {
-                teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
+                tp = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
                 key = "RedPoints";
             }
-            teampoints = teampoints+points;
-            updatePoints.Add(key,teampoints);
+            tp = tp+points;
+            updatePoints.Add(key,tp);
             PhotonNetwork.CurrentRoom.SetCustomProperties(updatePoints);
         }
     }
