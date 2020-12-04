@@ -45,6 +45,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     // Start Method
     void Start()
     {
+        cam.backgroundColor = new Color(227f / 149f, 121f / 255f, 102f / 255f);
         maxPlayersPerRoom = Convert.ToByte(PlayerPrefs.GetInt("max"));
         minPlayers = Convert.ToByte(PlayerPrefs.GetInt("min"));
 
@@ -80,13 +81,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Debug.Log("Team set as Blue");
             isTeamBlue = true;
-            cam.backgroundColor = Color.blue;
+            cam.backgroundColor = new Color(102f / 150f, 191f / 255f, 255f / 255f);
         }
         else
         {
             Debug.Log("Team set as Red");
             isTeamBlue = false;
-            cam.backgroundColor = Color.red;
+            cam.backgroundColor = new Color(227f / 149f, 121f / 255f, 102f / 255f);
         }
     }
     // Methods
