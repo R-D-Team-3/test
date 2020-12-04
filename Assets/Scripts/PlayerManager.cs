@@ -9,6 +9,7 @@ using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
+    static int MAX_POINTS=300;
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     bool ball_present;
@@ -53,9 +54,13 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     private Boolean reload;
     int Player_ID;
     object[] teamlist;
+    Text team_point_text;
+    Text my_point_text;
     // Start is called before the first frame update
     void Start()
     {
+        my_point_text = GameObject.Find("myPoints").GetComponent<Text>();
+        team_point_text = GameObject.Find("teamPoints").GetComponent<Text>();
         PlayerPrefs.SetInt("dead", 0);
         myPoints = 0;
         startPos = transform.position;
@@ -138,7 +143,44 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         Quaternion rotation = transform.rotation;
         sinAngle = (float)Math.Sin(rotation.eulerAngles.y * ((Math.PI) / 180));
         cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
-    }
+        my_point_text.text = myPoints.ToString();
+        if(playerIsTeamBlue)
+        {
+            team_point_text.text = PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"].ToString();
+            if((int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"]>=MAX_POINTS)
+            {
+                dead = true;
+                PlayerPrefs.SetInt("dead", 1);
+                StartCoroutine(showfloatingText("You Won, restaring in ",false));
+                StartCoroutine(revive());
+            }
+            if((int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"]>=MAX_POINTS)
+            {
+                dead = true;
+                PlayerPrefs.SetInt("dead", 1);
+                StartCoroutine(showfloatingText("You Lost, restaring in ",true));
+                StartCoroutine(revive());
+            }
+        }
+        else
+        {
+            team_point_text.text = PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"].ToString();
+            if((int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"]>=MAX_POINTS)
+            {
+                dead = true;
+                PlayerPrefs.SetInt("dead", 1);
+                StartCoroutine(showfloatingText("You Won, restaring in ",false));
+                StartCoroutine(revive());
+            }
+            if((int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"]>=MAX_POINTS)
+            {
+                dead = true;
+                PlayerPrefs.SetInt("dead", 1);
+                StartCoroutine(showfloatingText("You Lost, restaring in ",true));
+                StartCoroutine(revive());
+            }
+        }
+    }   
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         object[] Data = info.photonView.InstantiationData;
@@ -213,6 +255,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             throw_ball.GetComponent<Rigidbody>().AddRelativeForce(impulse,ForceMode.Impulse);
             bullseye.transform.SetParent(null,true);
             throw_ball.transform.SetParent(null, true);
+            ballAmountScript.decrement(1);
             throw_ball = null;
             Destroy(bullseye,1); // destroy after 1sec
         }
@@ -225,42 +268,35 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {            
             dead = true;
             PlayerPrefs.SetInt("dead", 1);
-            StartCoroutine(showfloatingText());
+            StartCoroutine(showfloatingText("You died. Reviving in ",true));
             StartCoroutine(revive());
         }
-
     }
     public void Hits(int points,bool teamblue)
     {
-        Text my_point_text = GameObject.Find("myPoints").GetComponent<Text>();
-        Text team_point_text = GameObject.Find("teamPoints").GetComponent<Text>();
+        //if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+        //{
+          //  return;
+        //}
         if(teamblue!=playerIsTeamBlue)
         {
             myPoints = myPoints + points;
-            my_point_text.text = myPoints.ToString(); 
             Hashtable updatePoints = new Hashtable();
             int teampoints = 0;
             string key ="";
             if(playerIsTeamBlue)
             {
                 teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
-                key = "BluePoints";   
+                key = "BluePoints";
             }
             else
             {
                 teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
                 key = "RedPoints";
             }
-            if((teampoints+points)>=300)
-            {
-                updatePoints.Add("RedWon",!playerIsTeamBlue);
-                updatePoints.Add("BlueWon",playerIsTeamBlue);
-                Debug.Log(key+ " team has won!");
-            }
-            team_point_text.text = (teampoints+points).ToString(); 
-            updatePoints.Add(key,teampoints+points);
+            teampoints = teampoints+points;
+            updatePoints.Add(key,teampoints);
             PhotonNetwork.CurrentRoom.SetCustomProperties(updatePoints);
-
         }
     }
     public void getHit(int points, bool teamblue)
@@ -270,12 +306,20 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             healthbarScript.TakeDamage(points);
         }
     }
-    IEnumerator showfloatingText()
+    IEnumerator showfloatingText(string float_text,bool color)
     {
         Text text = GameObject.Find("deadTextAnchor").GetComponent<Text>();
+        if(color)
+        {
+            text.color=Color.red;
+        }
+        else
+        {
+            text.color=Color.green;
+        }
         for (int i = 10; i>0; i--)
         {
-            string newstring = "You died. Reviving in " + i + " seconds.";
+            string newstring = float_text + i + " seconds.";
             text.text = newstring;
             yield return new WaitForSeconds(1);
         }

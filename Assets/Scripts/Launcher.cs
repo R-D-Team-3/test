@@ -108,8 +108,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         Hashtable roominfo = new Hashtable();
         roominfo.Add("RedPoints",0);
         roominfo.Add("BluePoints",0);
-        roominfo.Add("BlueWon",false);
-        roominfo.Add("RedWon",false);
         playerinfo.Add("team",isTeamBlue);             
         if (PhotonNetwork.IsConnected)
         {
