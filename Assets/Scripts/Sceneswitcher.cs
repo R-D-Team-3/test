@@ -18,4 +18,8 @@ public class Sceneswitcher : MonoBehaviour
         //SceneManager.LoadScene("MPTestRoom");
         SceneManager.UnloadScene("ImageRecognitionScene");
     }
+    public void GotoLauncher()
+    {
+        SceneManager.LoadScene("Launcher");
+    }
 }

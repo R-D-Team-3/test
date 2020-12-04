@@ -3,7 +3,14 @@ guid: ad1546e00e5673747ade8b72fd34afd6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - floatingTextPrefab: {instanceID: 0}
+  - ballPrefab: {instanceID: 0}
+  - bullseyePrefab: {instanceID: 0}
+  - tutorialButtonPrefab: {fileID: 8751510926866177618, guid: 98334dabec2fd1d44a01c8d6e9c71f72,
+      type: 3}
+  - healthbarScript: {instanceID: 0}
+  - ballAmountScript: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
