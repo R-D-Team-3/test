@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impulse: {x: 0, y: 5, z: 5}
-  explosionEffect: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b,
+  explosionEffect: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1,
     type: 3}
 --- !u!114 &7997608278393923415
 MonoBehaviour:
