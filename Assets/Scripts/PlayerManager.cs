@@ -245,18 +245,18 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 2)
             {
-                tutorialText.text = "Currently there are no enemy units on the map. your Healthbar on the top of your screen is full. \n\n" +
+                tutorialText.text = "Currently there are no enemy units on the map. Your Healthbar on the top of your screen is full. \n\n" +
                     "Once you are hit by an enemy player, life points will be deducted from the healthbar. \n\n" +
-                    "if the Healthbar is empty, you need to return to your spawnpoint to revive after a time delay.\n\n" +
+                    "If the Healthbar is empty, you need to return to your spawnpoint to revive after a time delay.\n\n" +
                     "Your spawnpoint is located at the place where you first entered the battleground.";
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 3)
             {
                 tutorialText.text = "Time for some action.\n\n" +
-                    "in the top right corner of your screen you see the number of bullets you carry.\n" +
-                    "if you lay your thumb on the sling, you take a bullet. a bullseye appears on the map.\n" +
-                    "By stretching the sling and tilting your phone you can alter the strength of your shot.\n" +
-                    "The aimed direction is determined by your phone's orientation.\n" +
+                    "In the top of your screen below the healthbar you see the number of bullets you carry.\n" +
+                    "If you lay your thumb on the sling, you take a bullet. a bullseye appears on the map.\n" +
+                    "By stretching the sling and tilting your phone you can alter the trajectory of your shot.\n" +
+                    "The direction is determined by your phone's orientation.\n" +
                     "If you like where you are aiming at, lift your thumb and launch the bullet.\n\n" +
                     "Click next and try this out. ";
             }
@@ -267,14 +267,14 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             if (PlayerPrefs.GetInt("tutorialIndex") == 5)
             {
                 tutorialText.text = "To reload you mimick picking up bullets from the ground.\n\n" +
-                    "Hold your phone flat and horizontal while moving it down to the ground and back up.";
+                    "Hold your phone horizontal while moving it down to the ground and back up again.";
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 6)
             {
                 tutorialText.text = "You are now familiar with the shooting mechanic.\n\n" +
-                    "another important objective is capturing and defending antennas.\n\n" +
+                    "Another important objective is capturing and defending antennas.\n\n" +
                     "Move towards an antenna indicated on your map and click the antenna button once you are close.\n\n" +
-                    "now click the next button.";
+                    "Now click the next button.";
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 7)
             {
@@ -284,13 +284,13 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 8)
             {
-                tutorialText.text = "when the Qr code is fully loaded you return to the battlefield.\n\n" +
-                    "the antenna is now under your team's control. It keeps generating victory points until you lose it to the other team.";
+                tutorialText.text = "When the Qr code is fully loaded you return to the battlefield.\n\n" +
+                    "The antenna is now under your team's control. It keeps generating victory points until you lose it to the other team.";
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 9)
             {
                 tutorialText.text = "Your training is complete. Well done.\n\n" +
-                    "you can now enter a multiplayer match or practice further on your own in here.";
+                    "You can now enter a multiplayer match or practice further on your own in here.";
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 10)
             {
