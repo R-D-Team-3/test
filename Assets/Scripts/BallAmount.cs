@@ -8,18 +8,6 @@ public class BallAmount : MonoBehaviour
 {
     public Text ballAmount;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void setBallAmount(int amount)
     {
         ballAmount.text = amount.ToString();

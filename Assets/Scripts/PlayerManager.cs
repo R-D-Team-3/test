@@ -447,6 +447,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         dead = false;
         PlayerPrefs.SetInt("dead", 0);
         healthbarScript.ChangeHealthbarColor(new Color(0.35f, 1f, 0.35f));
+        ballAmountScript.setBallAmount(5);
 
     }
     void waitOnReload()
