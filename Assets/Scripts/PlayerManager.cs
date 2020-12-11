@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     GameObject throw_ball;
     GameObject rubber;
     GameObject holder;
+    GameObject fork;
     Vector3 impulse;
     Touch pulltouch;
     Vector2 pull_pos;
@@ -60,6 +61,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     public int tutorialIndex;
     bool tutorialButtonsDeleted = false;
     bool tutorial = true;
+    bool Colorupdated = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +81,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         Input.gyro.enabled = true;
         Input.compass.enabled = true;
         Input.location.Start();
-
+       
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
         if (_cameraWork != null)
         {
@@ -98,6 +100,13 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             Debug.LogError("Find function does not work correctly.");
         }
+        fork = this.transform.Find("SlingShot/Fork_default").gameObject;
+        if (fork == null)
+        {
+            Debug.Log("Find FORK function does not work correctly.");
+        }
+
+
     }
 
     private void Awake()
@@ -110,6 +119,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             PlayerManager.LocalPlayerInstance = this.gameObject;
         }
+        
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
@@ -118,6 +128,17 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     // Update is called once per frame
     void Update()
     {
+        if (playerIsTeamBlue && !Colorupdated)
+        {
+            fork.GetComponent<Renderer>().material.color = Color.blue;
+            Colorupdated = true;
+        }
+        if (!playerIsTeamBlue && !Colorupdated)
+        { 
+            fork.GetComponent<Renderer>().material.color = Color.red;
+            Colorupdated = true;
+        }
+
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
             return;
@@ -205,6 +226,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         playerIsTeamBlue = (bool)Data[0];
 
         Debug.Log("Player " + Player_ID + "is in team blue? : " + playerIsTeamBlue);
+
     }
     public void incrementTutorialIndex()
     {
