@@ -36,7 +36,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
         if ((collision.gameObject.name == "Plane") || (collision.gameObject.name == "Floor")) //if the name of the ground is changed this has to change as well
         { 
             Debug.Log("destroy");
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
 
         if (collision.gameObject.CompareTag("Player"))

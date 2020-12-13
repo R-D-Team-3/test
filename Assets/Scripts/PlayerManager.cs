@@ -12,6 +12,14 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     static int MAX_POINTS = 300;
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    //float zerolat = 50.874647f; //belle-vue
+    //float zerolong =  4.719680f; //belle-vue
+    //float zerolat = 50.868767f; //kot Seppe
+    //float zerolong = 4.687349f; //kot Seppe
+    float zerolat = 50.874656f; //thuis Seppe
+    float zerolong =  4.724035f; //thuis Seppe
+    float latscale  = 189064.895f;
+    float longscale = 135685.210f;
     bool ball_present;
     public static GameObject LocalPlayerInstance;
     public GameObject ballPrefab;
@@ -63,6 +71,11 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     // Start is called before the first frame update
     void Start()
     {
+        for(int i=0;i<5;i++)
+        {
+            latBuffer[i] = zerolat;
+            longBuffer[i] = zerolong;
+        }
         resettable = new Hashtable();
         my_point_text = GameObject.Find("myPoints").GetComponent<Text>();
         team_point_text = GameObject.Find("teamPoints").GetComponent<Text>();
@@ -232,10 +245,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
 
                 tutorialText.text = "Welcome Special Agent. In a moment you will receive instructions for your upcoming mission.\n" +
-              "Click the next button if you want to proceed.\n";
+              "Click the next button if you want to proceed." + newPos.x.ToString() +"\n" +newPos.z.ToString();
               
             }
-            Debug.Log("tutorialIndex" + tutorialIndex);
+            //Debug.Log("tutorialIndex" + tutorialIndex);
             if (PlayerPrefs.GetInt("tutorialIndex") == 1)
             {
                 tutorialText.text = "Before your mission starts, you will be assigned to one of two teams.\n\n" +
@@ -303,11 +316,9 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             return;
         }
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.deltaTime * 3);
-
-        oldPos = transform.position;
-        transform.position = Vector3.MoveTowards(oldPos, startPos - (newPos * 80000), Time.deltaTime);
-
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.fixedDeltaTime * 3);
+        
+        this.transform.position = Vector3.MoveTowards(transform.position, newPos, Time.fixedDeltaTime);
         GameObject o = GameObject.Find("TextBallAmount");
         ballAmountScript = o.GetComponent<BallAmount>();
 
@@ -492,8 +503,6 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             // Access granted and location value could be retrieved
             LocationInfo gpsReadout = Input.location.lastData;
-
-
             latBuffer[location] = gpsReadout.latitude;
             longBuffer[location] = gpsReadout.longitude;
             location++;
@@ -501,23 +510,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 location = 0;
             }
-
-            if (firstTime && counter < 30)
-            {
-                latitude = gpsReadout.latitude;
-                longitude = gpsReadout.longitude;
-
-                for (int i = 0; i < 5; i++)
-                {
-                    latBuffer[i] = latitude;
-                    longBuffer[i] = longitude;
-
-                }
-                counter++;
-                firstTime = false;
-            }
-            newPos = new Vector3(latitude - latBuffer.Average(), 0, longitude - longBuffer.Average());
-
+            newPos = new Vector3((latBuffer.Average()-zerolat)*latscale, 0,(longBuffer.Average()-zerolong)*longscale);
+            // Debug.Log("UnityPosition:"+newPos.x+";"+newPos.z);
             isUpdating = false;
         }
     }
