@@ -36,7 +36,8 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
         if ((collision.gameObject.name == "Plane") || (collision.gameObject.name == "Floor")) //if the name of the ground is changed this has to change as well
         { 
             Debug.Log("destroy");
-            PhotonNetwork.Destroy(this.gameObject);
+            photonView.RPC("Explode", RpcTarget.All);
+            ExplosionDamage(transform.position, 2f);
         }
 
         if (collision.gameObject.CompareTag("Player"))
@@ -56,11 +57,25 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
     }
     [PunRPC]
-    void explode()
+    void Explode()
     {
-
         GameObject o = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(o, 1);
         PhotonNetwork.Destroy(this.gameObject);
+    }
+    void ExplosionDamage(Vector3 center, float radius)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (Collider hitCollider in hitColliders)
+        {
+            if (hitCollider.name == "Player(Clone)")
+            {
+                FiringPLayer = PhotonView.Find(FiringPlayer_ID).gameObject.GetComponent<PlayerManager>();
+                float distance = 1 / Vector3.Distance(center, hitCollider.transform.position);
+                FiringPLayer.Hits(Mathf.FloorToInt(distance * 20), hitCollider.gameObject.GetComponent<PlayerManager>().playerIsTeamBlue);
+                hitCollider.gameObject.GetComponent<PlayerManager>().getHit(Mathf.FloorToInt(distance * 20), FiringPLayer.playerIsTeamBlue);
+                Debug.Log(FiringPlayer_ID + " " + hitCollider.gameObject.GetComponent<PhotonView>().ViewID);
+            }
+        }
     }
 }

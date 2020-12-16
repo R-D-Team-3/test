@@ -15,6 +15,8 @@ namespace Com.Team3.Game
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
+        public GameObject healthPrefab;
+        public GameObject ammoPrefab;
         public bool blueteam;
         #endregion
 
@@ -36,6 +38,9 @@ namespace Com.Team3.Game
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                         PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-3f, 0f, 0f), Quaternion.identity, 0,playerinfo);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(-3f, 0.8f, 10), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(0f, 0.8f, 8), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(-8f, 0.8f, 8), Quaternion.identity);
                     } else
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");

@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     GameObject rubber;
     GameObject holder;
     GameObject fork;
+    private GameObject healhtbar;
     Vector3 impulse;
     Touch pulltouch;
     Vector2 pull_pos;
@@ -60,7 +61,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     public bool dead = false;
     bool deadTimerDone = false;
     private int counter2 = 0;
-    private float[] accelerometerBuffer = new float[150];
+    private float[] accelerometerBuffer = new float[100];
     private Boolean reload;
     int Player_ID;
     object[] teamlist;
@@ -111,6 +112,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         }
         rubber = this.transform.Find("SlingShot/Rubber").gameObject;
         holder = this.transform.Find("SlingShot/Rubber/holder").gameObject;
+        healhtbar = this.transform.Find("Healthbar").gameObject;
         if (rubber == null)
         {
             Debug.LogError("Find function does not work correctly.");
@@ -133,6 +135,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (photonView.IsMine)
         {
             PlayerManager.LocalPlayerInstance = this.gameObject;
+            healhtbar = this.transform.Find("Healthbar").gameObject;
+            healhtbar.SetActive(false);
         }
         
         // #Critical
@@ -351,9 +355,17 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             StartCoroutine(GetLocation());
         }
 
-        accelerometerBuffer[counter2] = (Input.acceleration.z * -10);
+        //Debug.Log(Input.acceleration.z * -10);
+        if (Input.acceleration.z * -10 > 13)
+        {
+            accelerometerBuffer[counter2] = 9;
+        }
+        else
+        {
+            accelerometerBuffer[counter2] = (Input.acceleration.z * -10);
+        }
         counter2++;
-        if (counter2 > 149)
+        if (counter2 > 99)
         {
             counter2 = 0;
         }
@@ -361,8 +373,6 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 
         if (accelerometerBuffer.Average() > 10.3 && !reload)
         {
-            Debug.Log(PlayerPrefs.GetInt("max"));
-
             ballAmountScript.increment(1);
             reload = true;
             Invoke("waitOnReload", 2);
@@ -447,6 +457,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (teamblue != playerIsTeamBlue)
         {
             healthbarScript.TakeDamage(points);
+            photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
         }
     }
     IEnumerator showfloatingText(string float_text, bool color)
@@ -478,6 +489,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             yield return new WaitForSeconds(0.1f);
         }
         healthbarScript.GainHealth(100);
+        photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
         deadTimerDone = false;
         dead = false;
         PlayerPrefs.SetInt("dead", 0);
@@ -538,5 +550,32 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             // Debug.Log("UnityPosition:"+newPos.x+";"+newPos.z);
             isUpdating = false;
         }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "HealthPrefab(Clone)")
+        {
+            if (photonView.IsMine)
+            {
+                healthbarScript.GainHealth(100);
+                photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
+            }
+            collision.gameObject.SetActive(false);
+        }
+        if (collision.gameObject.name == "AmmoPrefab(Clone)")
+        {
+            if (photonView.IsMine)
+            {
+                ballAmountScript.increment(5);
+            }
+            collision.gameObject.SetActive(false);
+        }
+
+    }
+    [PunRPC]
+    void UpdateHealth(float health)
+    {
+        GameObject o = PhotonView.Find(Player_ID).gameObject.transform.Find("Healthbar").gameObject;
+        o.transform.localScale = new Vector3((health / 200), o.transform.localScale.y, o.transform.localScale.z);
     }
 }
