@@ -8,6 +8,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Text;
 using ExitGames.Client.Photon;
+using System.Linq;
+
 public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField]
@@ -113,9 +115,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
             Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
             RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = maxPlayersPerRoom;
+             roomOptions.MaxPlayers = maxPlayersPerRoom;
             TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);
             PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
+
         }
     }
 
@@ -128,7 +131,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             roominfo.Add("RedPoints",0);
             roominfo.Add("BluePoints",0);
             Room thisroom = PhotonNetwork.CurrentRoom;
-            Debug.Log("nullroom?"+(thisroom==null));
+            //Debug.Log("nullroom?"+(thisroom==null));
             thisroom.SetCustomProperties(roominfo);
             PhotonNetwork.LoadLevel("MPTestRoom");
             // SceneManager.LoadScene(0); // temporary
@@ -161,8 +164,22 @@ public class Launcher : MonoBehaviourPunCallbacks
         base.OnConnected();
         connectionStatus.text = "Connected to Photon!";
         connectionStatus.color = Color.green;
-        roomJoinUI.SetActive(true);
-        buttonLoadArena.SetActive(false);
+        if (minPlayers > 1)
+        {
+            roomJoinUI.SetActive(true);
+            buttonLoadArena.SetActive(false);
+        }
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+        if (minPlayers <= 1)
+        {
+            playerName = UnityEngine.Random.Range(5, 7).ToString();
+            roomName = UnityEngine.Random.Range(5, 7).ToString();
+            JoinRoom();
+        }
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -187,6 +204,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             playerStatus.text = "Connected to Lobby";
         }
+
+        if (minPlayers <= 1)
+        {
+            //Debug.Log("starting loadarena");
+            LoadArena();
+        }
+
     }
 
     public override void OnPlayerEnteredRoom(Player player)

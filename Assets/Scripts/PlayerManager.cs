@@ -16,8 +16,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     //float zerolong =  4.719680f; //belle-vue
     //float zerolat = 50.868767f; //kot Seppe
     //float zerolong = 4.687349f; //kot Seppe
-    float zerolat = 50.874656f; //thuis Seppe
-    float zerolong =  4.724035f; //thuis Seppe
+    //float zerolat = 50.874656f; //thuis Seppe
+    //float zerolong =  4.724035f; //thuis Seppe
+    float zerolat = 50.873122f; //kot Marten
+    float zerolong = 4.701861f; //kot Marten
     float latscale  = 189064.895f;
     float longscale = 135685.210f;
     bool ball_present;
