@@ -12,16 +12,16 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     static int MAX_POINTS = 300;
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    //float zerolat = 50.874647f; //belle-vue
-    //float zerolong =  4.719680f; //belle-vue
+    float zerolat =  50.874453f; //belle-vue
+    float zerolong =  4.719595f; //belle-vue
     //float zerolat = 50.868767f; //kot Seppe
     //float zerolong = 4.687349f; //kot Seppe
     //float zerolat = 50.874656f; //thuis Seppe
     //float zerolong =  4.724035f; //thuis Seppe
-    float zerolat = 50.873122f; //kot Marten
-    float zerolong = 4.701861f; //kot Marten
-    float latscale  = 189064.895f;
-    float longscale = 135685.210f;
+    //float zerolat = 50.873122f; //kot Marten
+    //float zerolong = 4.701861f; //kot Marten
+    float latscale  = 200000.079f;
+    float longscale = 118881.118f;
     bool ball_present;
     public static GameObject LocalPlayerInstance;
     public GameObject ballPrefab;
@@ -344,9 +344,9 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             return;
         }
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.fixedDeltaTime * 3);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, compass_input, 0), Time.fixedDeltaTime * 5);
         
-        this.transform.position = Vector3.MoveTowards(transform.position, newPos, Time.fixedDeltaTime);
+        this.transform.position = Vector3.MoveTowards(transform.position, newPos, Time.fixedDeltaTime*10);
         GameObject o = GameObject.Find("TextBallAmount");
         ballAmountScript = o.GetComponent<BallAmount>();
 
@@ -546,7 +546,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 location = 0;
             }
-            newPos = new Vector3((latBuffer.Average()-zerolat)*latscale, 0,(longBuffer.Average()-zerolong)*longscale);
+            newPos = new Vector3((longBuffer.Average()-zerolong)*longscale,0,(latBuffer.Average()-zerolat)*latscale);
             // Debug.Log("UnityPosition:"+newPos.x+";"+newPos.z);
             isUpdating = false;
         }
