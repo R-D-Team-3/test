@@ -12,14 +12,14 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     static int MAX_POINTS = 300;
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    float zerolat =  50.874453f; //belle-vue
-    float zerolong =  4.719595f; //belle-vue
+    //float zerolat =  50.874453f; //belle-vue
+    //float zerolong =  4.719595f; //belle-vue
     //float zerolat = 50.868767f; //kot Seppe
     //float zerolong = 4.687349f; //kot Seppe
     //float zerolat = 50.874656f; //thuis Seppe
     //float zerolong =  4.724035f; //thuis Seppe
-    //float zerolat = 50.873122f; //kot Marten
-    //float zerolong = 4.701861f; //kot Marten
+    float zerolat = 50.873122f; //kot Marten
+    float zerolong = 4.701861f; //kot Marten
     float latscale  = 200000.079f;
     float longscale = 118881.118f;
     bool ball_present;

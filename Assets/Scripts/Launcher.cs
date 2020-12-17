@@ -25,6 +25,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     bool isTeamBlue;
     public int minPlayers;
     string gameVersion = "1";
+    Hashtable playerinfo;
 
     [Space(10)]
     [Header("Custom Variables")]
@@ -84,12 +85,17 @@ public class Launcher : MonoBehaviourPunCallbacks
             Debug.Log("Team set as Blue");
             isTeamBlue = true;
             cam.backgroundColor = new Color(102f / 150f, 191f / 255f, 255f / 255f);
+            playerinfo["team"] = isTeamBlue;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
         }
         else
         {
             Debug.Log("Team set as Red");
             isTeamBlue = false;
             cam.backgroundColor = new Color(227f / 149f, 121f / 255f, 102f / 255f);
+
+            playerinfo["team"] = isTeamBlue;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
         }
     }
     // Methods
@@ -107,7 +113,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        Hashtable playerinfo = new Hashtable();
+        playerinfo = new Hashtable();
         playerinfo.Add("team", isTeamBlue);
         if (PhotonNetwork.IsConnected)
         {
@@ -133,6 +139,11 @@ public class Launcher : MonoBehaviourPunCallbacks
             Room thisroom = PhotonNetwork.CurrentRoom;
             //Debug.Log("nullroom?"+(thisroom==null));
             thisroom.SetCustomProperties(roominfo);
+
+            //Hashtable playerinfo = new Hashtable();
+            //playerinfo.Add("team", isTeamBlue);
+            //PhotonNetwork.LocalPlayer.SetCustomProperties(playerinfo);
+
             PhotonNetwork.LoadLevel("MPTestRoom");
             // SceneManager.LoadScene(0); // temporary
         }

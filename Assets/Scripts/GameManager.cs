@@ -69,6 +69,7 @@ namespace Com.Team3.Game
         public void LeaveRoom() 
         {
             PhotonNetwork.LeaveRoom();
+            SceneManager.LoadScene("Menu");
         }
         #endregion
     }
