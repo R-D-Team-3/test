@@ -488,6 +488,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             tp = tp + points;
             updatePoints.Add(key, tp);
             PhotonNetwork.CurrentRoom.SetCustomProperties(updatePoints);
+            playSound();
         }
     }
     public void getHit(int points, bool teamblue)
