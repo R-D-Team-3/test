@@ -169,7 +169,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             pulltouch = Input.GetTouch(0);
             start_pos = pulltouch.rawPosition;
-            if ((start_pos.x > Screen.width / 3) && (start_pos.x < 2 * Screen.width / 3) && (start_pos.y < Screen.height / 3))
+            if ((start_pos.x > Screen.width / 3) && (start_pos.x < 2 * Screen.width / 3) && (start_pos.y < Screen.height / 2))
             {
                 pull_pos = pulltouch.position;
                 if (pull_pos.y < start_pos.y)
