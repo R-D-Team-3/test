@@ -48,7 +48,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
             }
             else
             {
-                photonView.RPC("explode", RpcTarget.All);
+                photonView.RPC("Explode", RpcTarget.All);
                 FiringPLayer = PhotonView.Find(FiringPlayer_ID).gameObject.GetComponent<PlayerManager>();
                 FiringPLayer.Hits(30,collision.gameObject.GetComponent<PlayerManager>().playerIsTeamBlue);
                 collision.gameObject.GetComponent<PlayerManager>().getHit(30,FiringPLayer.playerIsTeamBlue);
