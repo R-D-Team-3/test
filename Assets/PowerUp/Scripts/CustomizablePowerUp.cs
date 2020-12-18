@@ -114,7 +114,7 @@ public class CustomizablePowerUp : MonoBehaviour {
 		tmp.intensity = this.lightIntensity;
 		tmp.range = this.lightRange;
 		tmp.type = LightType.Point;
-		tmp.shadows = LightShadows.Hard;
+		tmp.shadows = LightShadows.None;
 	}
 	
 	

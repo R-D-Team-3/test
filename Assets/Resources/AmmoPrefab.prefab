@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1891689927185880684}
   - component: {fileID: 1891689927185880674}
-  - component: {fileID: 1891689927185880675}
   - component: {fileID: 4193150401952389236}
   - component: {fileID: 3806110174470173518}
   - component: {fileID: 7237352376891870862}
@@ -67,20 +66,8 @@ MonoBehaviour:
   itemIsReverse: 0
   itemMaterial: {fileID: 2100000, guid: c92403dbee0d444238a50451076ed995, type: 2}
   lightColor: {r: 1, g: 1, b: 1, a: 1}
-  lightIntensity: 0
+  lightIntensity: 2
   lightRange: 5
---- !u!114 &1891689927185880675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891689927185880685}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc423992dbbf6c469f5c767af90da51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4193150401952389236
 MonoBehaviour:
   m_ObjectHideFlags: 0

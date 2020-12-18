@@ -608,7 +608,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
                 healthbarScript.GainHealth(100);
                 photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
             }
-            collision.gameObject.SetActive(false);
+            photonView.RPC("Destroy", RpcTarget.All, collision.gameObject.GetComponent<PhotonView>().ViewID);
         }
         if (collision.gameObject.name == "AmmoPrefab(Clone)")
         {
@@ -616,7 +616,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             {
                 ballAmountScript.increment(5);
             }
-            collision.gameObject.SetActive(false);
+            photonView.RPC("Destroy", RpcTarget.All, collision.gameObject.GetComponent<PhotonView>().ViewID);
         }
 
     }
@@ -625,5 +625,11 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
         GameObject o = PhotonView.Find(Player_ID).gameObject.transform.Find("Healthbar").gameObject;
         o.transform.localScale = new Vector3((health / 200), o.transform.localScale.y, o.transform.localScale.z);
+    }
+
+    [PunRPC]
+    void Destroy(int id)
+    {
+        PhotonNetwork.Destroy(PhotonView.Find(id));
     }
 }

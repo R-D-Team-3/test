@@ -38,9 +38,14 @@ namespace Com.Team3.Game
                         Debug.LogFormat("We are Instantiating LocalPlayer");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                         PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(-3f, 0f, 0f), Quaternion.identity, 0,playerinfo);
-                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(-3f, 0.8f, 10), Quaternion.identity);
-                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(0f, 0.8f, 8), Quaternion.identity);
-                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(-8f, 0.8f, 8), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(40, 0.8f, 200), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(1, 0.8f, 104), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(30, 0.8f, 15), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.healthPrefab.name, new Vector3(-20, 0.8f, -60), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(20, 0.8f, 106), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(4, 0.8f, 201), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(-16, 0.8f, 36), Quaternion.identity);
+                        PhotonNetwork.InstantiateRoomObject(this.ammoPrefab.name, new Vector3(22, 0.8f, -80), Quaternion.identity);
                     } else
                     {
                         Debug.LogFormat("We are Instantiating LocalPlayer");
