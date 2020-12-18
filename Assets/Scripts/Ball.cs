@@ -53,6 +53,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
                 FiringPLayer.Hits(30,collision.gameObject.GetComponent<PlayerManager>().playerIsTeamBlue);
                 collision.gameObject.GetComponent<PlayerManager>().getHit(30,FiringPLayer.playerIsTeamBlue);
                 Debug.Log("Player "+FiringPlayer_ID+" hit"+collision.gameObject.GetComponent<PhotonView>().ViewID+"!");
+                FiringPLayer.playSound();
             }
         }
     }
@@ -62,6 +63,7 @@ public class Ball : MonoBehaviourPun, IPunInstantiateMagicCallback
         GameObject o = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(o, 1);
         PhotonNetwork.Destroy(this.gameObject);
+
     }
     void ExplosionDamage(Vector3 center, float radius)
     {

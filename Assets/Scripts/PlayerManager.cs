@@ -75,6 +75,9 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     int shottutorial = 0;
     int reloadtutorial = 0;
     bool Colorupdated = false;
+    public AudioClip explosionSound;
+    static AudioSource audioSrc; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -124,6 +127,9 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             Debug.Log("Find FORK function does not work correctly.");
         }
+
+        explosionSound = Resources.Load<AudioClip>("Explosion 1");
+        audioSrc = GetComponent<AudioSource>();
 
 
     }
@@ -475,6 +481,11 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             healthbarScript.TakeDamage(points);
             photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
         }
+    }
+
+    public void playSound()
+    {
+        audioSrc.PlayOneShot(explosionSound);
     }
     IEnumerator showfloatingText(string float_text, bool color)
     {
