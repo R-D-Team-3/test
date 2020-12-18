@@ -72,6 +72,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     public int tutorialIndex;
     bool tutorialButtonsDeleted = false;
     bool tutorial = true;
+    int shottutorial = 0;
+    int reloadtutorial = 0;
     bool Colorupdated = false;
     // Start is called before the first frame update
     void Start()
@@ -267,8 +269,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         if ((PhotonNetwork.CurrentRoom.PlayerCount == 1) && (tutorial == true))
         {
             Text tutorialText = GameObject.Find("tutorialText").GetComponent<Text>();
-            //nextButton = GameObject.Find("tutorialNextButton").getComponent<Button>();
-            //nextButton.onClick.AddListener(incrementTutorialIndex);
+     
             if (PlayerPrefs.GetInt("tutorialIndex") == 0)
             {
 
@@ -300,15 +301,28 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
                     "The direction is determined by your phone's orientation.\n" +
                     "If you like where you are aiming at, lift your thumb and launch the bullet.\n\n" +
                     "Click next and try this out. ";
+                shottutorial = 0;
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 4)
             {
-                tutorialText.text = "";
+                tutorialText.text = "Shoot three times to proceed or click the next button";
+                if (shottutorial==3)
+                {
+                    incrementTutorialIndex();
+                    shottutorial = 0;
+                }
+                reloadtutorial = 0;
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 5)
             {
                 tutorialText.text = "To reload you mimick picking up bullets from the ground.\n\n" +
-                    "Hold your phone horizontal while moving it down to the ground and back up again.";
+                    "Hold your phone horizontal while moving it down to the ground and back up again.\n\n" +
+                    "reload twice to proceed or click next.";
+                if (reloadtutorial == 2)
+                {
+                    incrementTutorialIndex();
+                    reloadtutorial = 0;
+                }
             }
             if (PlayerPrefs.GetInt("tutorialIndex") == 6)
             {
@@ -375,6 +389,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             ballAmountScript.increment(1);
             reload = true;
+            reloadtutorial += 1;
             Invoke("waitOnReload", 2);
         }
 
@@ -399,6 +414,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             float forwardvelocity = rubber_strain / 8;
             float dist_slingshot = airtime * forwardvelocity;
             bullseye.transform.localPosition = new Vector3(0, 0.1f, dist_slingshot);
+            shottutorial += 1;
         }
         if ((!ball_present) && (throw_ball != null))
         {
