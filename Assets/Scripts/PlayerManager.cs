@@ -9,7 +9,7 @@ using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
-    static int MAX_POINTS = 300;
+    static int MAX_POINTS = 300; //ook aanpassen in pointsBar script
     public GameObject floatingTextPrefab;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     //float zerolat =  50.874453f; //belle-vue
@@ -57,6 +57,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     int counter = 0;
     public Healthbar healthbarScript;
     public BallAmount ballAmountScript;
+    public pointsBar pointsBarScript;
     int myPoints;
     public bool dead = false;
     bool deadTimerDone = false;
@@ -68,6 +69,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     Text team_point_text;
     Text my_point_text;
     int teampoints;
+    int enemypoints;
     Hashtable resettable;
     public int tutorialIndex;
     bool tutorialButtonsDeleted = false;
@@ -96,6 +98,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
 
         myPoints = 0;
         teampoints = 0;
+        enemypoints = 0;
         startPos = transform.position;
         ball_present = false;
         rubber_strain = 0f;
@@ -119,6 +122,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         rubber = this.transform.Find("SlingShot/Rubber").gameObject;
         holder = this.transform.Find("SlingShot/Rubber/holder").gameObject;
         healhtbar = this.transform.Find("Healthbar").gameObject;
+
+        GameObject o = GameObject.Find("pointsBar");
+        pointsBarScript = o.GetComponent<pointsBar>();
+
         if (rubber == null)
         {
             Debug.LogError("Find function does not work correctly.");
@@ -146,7 +153,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             healhtbar = this.transform.Find("Healthbar").gameObject;
             healhtbar.SetActive(false);
         }
-        
+
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(this.gameObject);
@@ -202,9 +209,16 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         cosAngle = (float)Math.Cos(rotation.eulerAngles.y * ((Math.PI) / 180));
         my_point_text.text = myPoints.ToString();
         team_point_text.text = teampoints.ToString();
+        //teamPointsBar.value = teampoints / MAX_POINTS;
+        //enemyPointsBar.value = 1-(enemypoints / MAX_POINTS);
+
         if (playerIsTeamBlue)
         {
             teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
+            enemypoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
+
+            pointsBarScript.updatePoints(teampoints, enemypoints);
+
             if (teampoints >= MAX_POINTS)
             {
                 resettable.Add("BluePoints", 0);
@@ -227,6 +241,8 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         else
         {
             teampoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["RedPoints"];
+            enemypoints = (int)PhotonNetwork.CurrentRoom.CustomProperties["BluePoints"];
+            pointsBarScript.updatePoints(teampoints, enemypoints);
             if (teampoints >= MAX_POINTS)
             {
                 resettable.Add("RedPoints", 0);
