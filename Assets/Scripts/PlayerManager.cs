@@ -76,6 +76,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     int reloadtutorial = 0;
     bool Colorupdated = false;
     public AudioClip explosionSound;
+    public AudioClip hitSound;
     static AudioSource audioSrc; 
 
     // Start is called before the first frame update
@@ -128,7 +129,6 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
             Debug.Log("Find FORK function does not work correctly.");
         }
 
-        explosionSound = Resources.Load<AudioClip>("Explosion 1");
         audioSrc = GetComponent<AudioSource>();
 
 
@@ -479,6 +479,7 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (teamblue != playerIsTeamBlue)
         {
             healthbarScript.TakeDamage(points);
+            playHitSound();
             photonView.RPC("UpdateHealth", RpcTarget.All, healthbarScript.health);
         }
     }
@@ -486,6 +487,10 @@ public class PlayerManager : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void playSound()
     {
         audioSrc.PlayOneShot(explosionSound);
+    }
+    public void playHitSound()
+    {
+        audioSrc.PlayOneShot(hitSound);
     }
     IEnumerator showfloatingText(string float_text, bool color)
     {

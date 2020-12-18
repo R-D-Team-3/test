@@ -441,6 +441,7 @@ MonoBehaviour:
   dead: 0
   tutorialIndex: 0
   explosionSound: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
+  hitSound: {fileID: 8300000, guid: 9e4c5f2327fc67c49ac5c94471e3107a, type: 3}
 --- !u!114 &1322696534894288119
 MonoBehaviour:
   m_ObjectHideFlags: 0
